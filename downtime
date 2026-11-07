@@ -1,46 +1,43 @@
 import pandas as pd
 import numpy as np
 
-# 1. Load datasets
+# ==========================================================
+# 1. LOAD & CLEAN DATASETS
+# ==========================================================
 df = pd.read_parquet("data/1_prepared_views/prepared_daily_view.parquet")
 calendar = pd.read_parquet("data/2_machine_decision/calendar_day.parquet")
+machines = pd.read_parquet("data/2_machine_decision/machines.parquet")
+placements = pd.read_parquet("data/2_machine_decision/placements.parquet")
 
-# Clean column headers to eliminate trailing/leading whitespace issues
-calendar.columns = calendar.columns.str.strip()
-df.columns = df.columns.str.strip()
+# Clean column header whitespace across all tables
+for dataset in [df, calendar, machines, placements]:
+    dataset.columns = dataset.columns.str.strip()
 
-# 2. Type conversions to avoid Decimal arithmetic errors
+# Convert currency and time columns from Decimal to float
 numeric_cols = ["house_win_usd", "theo_usd", "coin_in_usd", "available_hours"]
 df[numeric_cols] = df[numeric_cols].astype(float)
 
-# 3. Datetime alignment & Merge
+# Datetime conversions
 df['gaming_date'] = pd.to_datetime(df['gaming_date'])
 calendar['gaming_date'] = pd.to_datetime(calendar['gaming_date'])
 
+# Merge calendar metadata using exact schema columns
 df = df.merge(calendar, on="gaming_date", how="left", suffixes=("", "_cal"))
 
-# 4. Dynamic Column Matchers
-holiday_col = next((c for c in df.columns if 'holiday' in c.lower()), None)
-scheduled_col = next((c for c in df.columns if 'sched' in c.lower()), None)
+# Map exact schema column names
+holiday_col = next((c for c in df.columns if 'holiday' in c.lower()), "federal_holiday")
+scheduled_col = next((c for c in df.columns if 'sched' in c.lower()), "scheduled_seconds")
 
-# Set is_holiday flag safely
-if holiday_col:
-    df["is_holiday"] = df[holiday_col].notna() & (df[holiday_col] != "") & (df[holiday_col] != False)
-else:
-    df["is_holiday"] = False
-
-# Set day of week natively
+df["is_holiday"] = (df[holiday_col].notna() & (df[holiday_col] != "") & (df[holiday_col] != False)) if holiday_col in df.columns else False
 df["day_of_week"] = df["gaming_date"].dt.day_name()
+df["scheduled_hours"] = (df[scheduled_col].astype(float) / 3600.0) if scheduled_col in df.columns else 24.0
 
-# Set scheduled hours (defaults to 24 hrs / 86400 sec if missing)
-if scheduled_col:
-    df["scheduled_hours"] = df[scheduled_col].astype(float) / 3600.0
-else:
-    df["scheduled_hours"] = 24.0
-
-# 5. Compute downtime & revenue impact
+# ==========================================================
+# 2. DOWNTIME & REVENUE LOSS CALCULATIONS
+# ==========================================================
 df["downtime_hours"] = (df["scheduled_hours"] - df["available_hours"]).clip(lower=0)
 
+# Hourly theoretical win rate with floor-average fallback for zero-availability days
 floor_avg_theo_rate = (df["theo_usd"].sum() / df["available_hours"].sum())
 df["hourly_theo_rate"] = np.where(
     df["available_hours"] > 0,
@@ -51,7 +48,7 @@ df["hourly_theo_rate"] = np.where(
 df["hourly_coin_in_rate"] = np.where(
     df["available_hours"] > 0,
     df["coin_in_usd"] / df["available_hours"],
-    floor_avg_theo_rate / 0.08  # ~8% standard hold baseline
+    floor_avg_theo_rate / 0.08  # Baseline 8% hold rate
 )
 
 df["lost_theo_usd"] = df["downtime_hours"] * df["hourly_theo_rate"]
@@ -59,9 +56,9 @@ df["lost_coin_in_usd"] = df["downtime_hours"] * df["hourly_coin_in_rate"]
 
 active_df = df[df["active"]].copy()
 
-# ==========================================================
-# OUTPUT 1: OVERALL LOST PLAY SUMMARY
-# ==========================================================
+# ----------------------------------------------------------
+# OUTPUT 1: FLOOR-WIDE LOST PLAY SUMMARY
+# ----------------------------------------------------------
 total_scheduled = active_df["scheduled_hours"].sum()
 total_available = active_df["available_hours"].sum()
 total_downtime = active_df["downtime_hours"].sum()
@@ -75,9 +72,9 @@ print(f"Total Lost Downtime Hours      : {total_downtime:,.1f} hrs ({total_downt
 print(f"Estimated Lost Coin-in Volume   : ${total_lost_coin_in:,.2f}")
 print(f"Estimated Lost Theo Revenue     : ${total_lost_theo:,.2f}\n")
 
-# ==========================================================
+# ----------------------------------------------------------
 # OUTPUT 2: DOWNTIME BY MONTH
-# ==========================================================
+# ----------------------------------------------------------
 active_df["month"] = active_df["gaming_date"].dt.to_period("M")
 monthly_summary = (
     active_df.groupby("month")
@@ -93,9 +90,9 @@ print("=== 2. DOWNTIME & LOST THEO BY MONTH ===")
 print(monthly_summary.to_string(index=False))
 print("\n")
 
-# ==========================================================
+# ----------------------------------------------------------
 # OUTPUT 3: TOP 10 DOWNTIME SPIKE DATES
-# ==========================================================
+# ----------------------------------------------------------
 daily_spikes = (
     active_df.groupby(["gaming_date", "day_of_week", "is_holiday"])
     .agg(
@@ -107,5 +104,56 @@ daily_spikes = (
     .reset_index()
 )
 
-print("=== TOP 10 DOWNTIME SPIKE DATES ===")
+print("=== 3. TOP 10 DOWNTIME SPIKE DATES ===")
 print(daily_spikes.to_string(index=False))
+print("\n")
+
+# ==========================================================
+# 3. METADATA JOIN & MANUFACTURER BREAKDOWN
+# ==========================================================
+if "effective_from_utc" in placements.columns:
+    latest_placements = placements.sort_values("effective_from_utc").groupby("machine_id").last().reset_index()
+else:
+    latest_placements = placements.drop_duplicates(subset=["machine_id"], keep="last")
+
+meta = latest_placements.merge(machines, on="machine_id", how="left")
+
+m_summary = (
+    active_df.groupby("machine_id")
+    .agg(
+        downtime_hours=("downtime_hours", "sum"),
+        lost_theo_usd=("lost_theo_usd", "sum")
+    )
+    .reset_index()
+    .merge(meta, on="machine_id", how="left")
+)
+
+# ----------------------------------------------------------
+# OUTPUT 4: DOWNTIME BY MANUFACTURER
+# ----------------------------------------------------------
+mfg_summary = (
+    m_summary.groupby("manufacturer")
+    .agg(
+        machine_count=("machine_id", "nunique"),
+        total_downtime_hours=("downtime_hours", "sum"),
+        total_lost_theo=("lost_theo_usd", "sum"),
+        avg_lost_per_machine=("lost_theo_usd", "mean")
+    )
+    .reset_index()
+)
+
+print("=== 4. DOWNTIME BY MANUFACTURER ===")
+print(mfg_summary.to_string(index=False))
+print("\n")
+
+# ----------------------------------------------------------
+# OUTPUT 5: TOP 15 WORST MACHINES BY LOST THEO
+# ----------------------------------------------------------
+game_col = "theme" if "theme" in m_summary.columns else ("game_title" if "game_title" in m_summary.columns else "machine_id")
+top_15_worst = (
+    m_summary.sort_values("lost_theo_usd", ascending=False)
+    .head(15)[["machine_id", "manufacturer", game_col, "downtime_hours", "lost_theo_usd"]]
+)
+
+print("=== 5. TOP 15 WORST DOWNTIME MACHINES ===")
+print(top_15_worst.to_string(index=False))

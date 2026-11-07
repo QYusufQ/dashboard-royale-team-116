@@ -1,0 +1,79 @@
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#071224;
+    color:white;
+}
+
+/* Navbar */
+
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:20px 50px;
+
+    background:#0D1B38;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+}
+
+/* Card Table */
+
+.card-table{
+
+    display:flex;
+    gap:25px;
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    padding:50px;
+
+}
+
+.playing-card{
+
+    width:220px;
+    height:300px;
+
+    background:white;
+
+    color:#0D1B38;
+
+    border:4px solid #D4AF37;
+
+    border-radius:16px;
+
+    position:relative;
+
+    padding:20px;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.4);
+
+}
+
+.corner{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.red{
+    color:#cc2525;
+}
+
+.playing-card h3{
+    margin-top:60px;
+    font-size:28px;
+}
+
+.playing-card p{
+    font-size:40px;
+    font-weight:bold;
+    color:#D4AF37;
+}

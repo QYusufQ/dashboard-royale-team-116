@@ -95,4 +95,3 @@ decile_summary["actual_hold_pct"] = (decile_summary["total_net_win"] / decile_su
 print("=== 3. DECILE BREAKDOWN (D10 = HIGHEST VOLUME PLAYERS) ===")
 print(decile_summary.to_string(index=False))
 
-#By May, points redeemed drop by half compared to April. In Jan–Apr, it took roughly 12.5 to 13.8 points to redeem $1.00 of comp face value. Starting in May, it required only ~5.8 points per $1.00.

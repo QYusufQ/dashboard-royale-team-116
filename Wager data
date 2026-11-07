@@ -1,14 +1,14 @@
 import pandas as pd
 import numpy as np
 
-# 1. Load sessions data from 3_guests[cite: 7]
+# 1. Load sessions data from 3_guests
 df = pd.read_parquet("data/3_guests/sessions.parquet")
 df.columns = df.columns.str.strip()
 
-# 2. Filter for tracked carded play (valid player_id)[cite: 7]
+# 2. Filter for tracked carded play (valid player_id)
 df_tracked = df[df["player_id"].notna() & (df["player_id"] != "")].copy()
 
-# 3. Currency conversions (Cents -> USD)[cite: 7]
+# 3. Currency conversions (Cents -> USD)
 df_tracked["wagered_usd"] = df_tracked["coin_in_cents"].astype(float) / 100.0
 df_tracked["got_back_usd"] = df_tracked["payout_cents"].astype(float) / 100.0
 df_tracked["theo_usd"] = df_tracked["theo_cents"].astype(float) / 100.0
@@ -16,7 +16,7 @@ df_tracked["theo_usd"] = df_tracked["theo_cents"].astype(float) / 100.0
 # Net Casino Win per session (Wagered - Got Back)
 df_tracked["net_win_usd"] = df_tracked["wagered_usd"] - df_tracked["got_back_usd"]
 
-# 4. Aggregate by Player[cite: 7]
+# 4. Aggregate by Player
 player_summary = (
     df_tracked.groupby("player_id")
     .agg(

@@ -1,0 +1,111 @@
+import pandas as pd
+import numpy as np
+
+# 1. Load datasets
+df = pd.read_parquet("data/1_prepared_views/prepared_daily_view.parquet")
+calendar = pd.read_parquet("data/2_machine_decision/calendar_day.parquet")
+
+# Clean column headers to eliminate trailing/leading whitespace issues
+calendar.columns = calendar.columns.str.strip()
+df.columns = df.columns.str.strip()
+
+# 2. Type conversions to avoid Decimal arithmetic errors
+numeric_cols = ["house_win_usd", "theo_usd", "coin_in_usd", "available_hours"]
+df[numeric_cols] = df[numeric_cols].astype(float)
+
+# 3. Datetime alignment & Merge
+df['gaming_date'] = pd.to_datetime(df['gaming_date'])
+calendar['gaming_date'] = pd.to_datetime(calendar['gaming_date'])
+
+df = df.merge(calendar, on="gaming_date", how="left", suffixes=("", "_cal"))
+
+# 4. Dynamic Column Matchers
+holiday_col = next((c for c in df.columns if 'holiday' in c.lower()), None)
+scheduled_col = next((c for c in df.columns if 'sched' in c.lower()), None)
+
+# Set is_holiday flag safely
+if holiday_col:
+    df["is_holiday"] = df[holiday_col].notna() & (df[holiday_col] != "") & (df[holiday_col] != False)
+else:
+    df["is_holiday"] = False
+
+# Set day of week natively
+df["day_of_week"] = df["gaming_date"].dt.day_name()
+
+# Set scheduled hours (defaults to 24 hrs / 86400 sec if missing)
+if scheduled_col:
+    df["scheduled_hours"] = df[scheduled_col].astype(float) / 3600.0
+else:
+    df["scheduled_hours"] = 24.0
+
+# 5. Compute downtime & revenue impact
+df["downtime_hours"] = (df["scheduled_hours"] - df["available_hours"]).clip(lower=0)
+
+floor_avg_theo_rate = (df["theo_usd"].sum() / df["available_hours"].sum())
+df["hourly_theo_rate"] = np.where(
+    df["available_hours"] > 0,
+    df["theo_usd"] / df["available_hours"],
+    floor_avg_theo_rate
+)
+
+df["hourly_coin_in_rate"] = np.where(
+    df["available_hours"] > 0,
+    df["coin_in_usd"] / df["available_hours"],
+    floor_avg_theo_rate / 0.08  # ~8% standard hold baseline
+)
+
+df["lost_theo_usd"] = df["downtime_hours"] * df["hourly_theo_rate"]
+df["lost_coin_in_usd"] = df["downtime_hours"] * df["hourly_coin_in_rate"]
+
+active_df = df[df["active"]].copy()
+
+# ==========================================================
+# OUTPUT 1: OVERALL LOST PLAY SUMMARY
+# ==========================================================
+total_scheduled = active_df["scheduled_hours"].sum()
+total_available = active_df["available_hours"].sum()
+total_downtime = active_df["downtime_hours"].sum()
+total_lost_theo = active_df["lost_theo_usd"].sum()
+total_lost_coin_in = active_df["lost_coin_in_usd"].sum()
+
+print("=== 1. FLOOR-WIDE LOST PLAY SUMMARY ===")
+print(f"Total Scheduled Operating Hours : {total_scheduled:,.1f} hrs")
+print(f"Total Available Operating Hours : {total_available:,.1f} hrs")
+print(f"Total Lost Downtime Hours      : {total_downtime:,.1f} hrs ({total_downtime/total_scheduled:.2%} of total)")
+print(f"Estimated Lost Coin-in Volume   : ${total_lost_coin_in:,.2f}")
+print(f"Estimated Lost Theo Revenue     : ${total_lost_theo:,.2f}\n")
+
+# ==========================================================
+# OUTPUT 2: DOWNTIME BY MONTH
+# ==========================================================
+active_df["month"] = active_df["gaming_date"].dt.to_period("M")
+monthly_summary = (
+    active_df.groupby("month")
+    .agg(
+        downtime_hours=("downtime_hours", "sum"),
+        lost_theo=("lost_theo_usd", "sum"),
+        active_machines=("machine_id", "nunique")
+    )
+    .reset_index()
+)
+
+print("=== 2. DOWNTIME & LOST THEO BY MONTH ===")
+print(monthly_summary.to_string(index=False))
+print("\n")
+
+# ==========================================================
+# OUTPUT 3: TOP 10 DOWNTIME SPIKE DATES
+# ==========================================================
+daily_spikes = (
+    active_df.groupby(["gaming_date", "day_of_week", "is_holiday"])
+    .agg(
+        downtime_hours=("downtime_hours", "sum"),
+        lost_theo=("lost_theo_usd", "sum")
+    )
+    .sort_values("downtime_hours", ascending=False)
+    .head(10)
+    .reset_index()
+)
+
+print("=== TOP 10 DOWNTIME SPIKE DATES ===")
+print(daily_spikes.to_string(index=False))

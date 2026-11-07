@@ -16,5 +16,3 @@ bottom_10 = (
     .sort_values("total_house_win")
     .head(10)
 )
-
-print(bottom_10)

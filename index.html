@@ -6,395 +6,513 @@
     <title>The Gilded Ace Dashboard</title>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="layout.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+<div class="scroll-progress" aria-hidden="true"></div>
+<div class="chip-rail left" aria-hidden="true">
+    <span class="chip red big"    style="--x:30%; --top:16%; --speed:-0.05; --tilt:-14deg; --delay:0s"><i>♥<b>$5</b></i></span>
+    <span class="chip black"      style="--x:72%; --top:41%; --speed:-0.09; --tilt:10deg;  --delay:-2s"><i>♠<b>$100</b></i></span>
+    <span class="chip green small" style="--x:18%; --top:63%; --speed:-0.03; --tilt:-6deg;  --delay:-4s"><i>♣<b>$25</b></i></span>
+    <span class="chip purple"     style="--x:62%; --top:84%; --speed:-0.07; --tilt:18deg;  --delay:-1s"><i>♦<b>$500</b></i></span>
+    <span class="chip blue ghost"  style="--x:85%; --top:30%; --speed:-0.12; --tilt:22deg;  --delay:-3s"><i>♣<b>$10</b></i></span>
+    <span class="chip gold ghost"  style="--x:40%; --top:74%; --speed:-0.02; --tilt:-25deg; --delay:-6s"><i>♥<b>$1K</b></i></span>
+</div>
+<div class="chip-rail right" aria-hidden="true">
+    <span class="chip gold"       style="--x:70%; --top:24%; --speed:-0.08; --tilt:12deg;  --delay:-3s"><i>♠<b>$1K</b></i></span>
+    <span class="chip blue small" style="--x:25%; --top:47%; --speed:-0.04; --tilt:-10deg; --delay:-5s"><i>♦<b>$10</b></i></span>
+    <span class="chip red"        style="--x:78%; --top:69%; --speed:-0.1;  --tilt:6deg;   --delay:-1.5s"><i>♥<b>$5</b></i></span>
+    <span class="chip black big"  style="--x:35%; --top:88%; --speed:-0.06; --tilt:-16deg; --delay:-2.5s"><i>♣<b>$100</b></i></span>
 
-    <nav>
-        <h1>♠ The Gilded Ace</h1>
+    <span class="chip green ghost" style="--x:15%; --top:12%; --speed:-0.11; --tilt:-18deg; --delay:-4.5s"><i>♣<b>$25</b></i></span>
+    <span class="chip purple ghost" style="--x:60%; --top:58%; --speed:-0.03; --tilt:28deg; --delay:-7s"><i>♦<b>$500</b></i></span>
+</div>
+<button type="button" class="to-top" aria-label="Back to top" title="Back to top">♠</button>
 
-        <div class="nav-links">
-            <a href="#machines">Machines</a>
-            <a href="#demand">Demand</a>
-            <a href="#downtime">Downtime</a>
-            <a href="#players">Players</a>
-            <a href="#loyalty">Loyalty</a>
-            <a href="#model">Model</a>
-            <a href="#recommendations">Recommendations</a>
-            <a href="#evidence">Evidence</a>
-        </div>
-    </nav>
-
-
-    <section class="hero">
-
-    <div class="hero-content">
-
-        <h1 class="hero-title">
-    ♠ THE
-    <span>GILDED</span>
-        ACE
-        </h1>
-
-        <p class="hero-text">
-            Casino Operations & Performance Dashboard
-        </p>
+<nav>
+    <h1>♠ The Gilded Ace</h1>
+    <div class="nav-links">
+        <a href="#machines">Machines</a>
+        <a href="#demand">Demand</a>
+        <a href="#downtime">Downtime</a>
+        <a href="#players">Players</a>
+        <a href="#loyalty">Loyalty</a>
+        <a href="#model">Model</a>
+        <a href="#recommendations">Recommendations</a>
+        <a href="#evidence">Evidence</a>
     </div>
+</nav>
 
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">♠ THE <span>GILDED</span> ACE</h1>
+        <p class="hero-text">Casino Operations &amp; Performance Dashboard · Jan–Jun 2025</p>
+    </div>
 </section>
 
-<section class="filters">
+<main class="wrap">
 
-    <select>
-        <option>Jan-Jun 2025</option>
-        <option>Apr-Jun 2025</option>
-        <option>Jun 2025</option>
-    </select>
+<div class="view-bar">
+    <div class="view-toggle" role="group" aria-label="Report view">
+        <button type="button" data-view="compact" title="Key findings and decisions">♠ Compact</button>
+        <button type="button" data-view="detailed" title="Every chart, the evidence and limitations">♦ Detailed</button>
+    </div>
+</div>
 
-    <select>
-        <option>All Zones</option>
-    </select>
-
-    <select>
-        <option>All Manufacturers</option>
-    </select>
-
-</section>
-
-
+<!-- ===================== KPIs ===================== -->
 <section id="overview">
-
-       <div class="card-table">
-
+    <div class="card-table">
         <div class="playing-card">
             <div class="corner top-left">A♠</div>
             <div class="corner bottom-right">A♠</div>
-
             <h3>Coin-In</h3>
-
-            <p>$163.8M</p>
+            <p id="kpi-coin">$248.9M</p>
+            <div class="kpi-foot" id="kpi-coin-foot">Wagered on all 310 machines</div>
         </div>
-
         <div class="playing-card">
             <div class="corner top-left red">K♦</div>
             <div class="corner bottom-right red">K♦</div>
-
             <h3>House Win</h3>
-
-            <p>$15.6M</p>
+            <p id="kpi-win">$23.6M</p>
+            <div class="kpi-foot" id="kpi-win-foot">Actual hold 9.50% vs designed 9.46%</div>
         </div>
-
         <div class="playing-card">
             <div class="corner top-left red">Q♥</div>
             <div class="corner bottom-right red">Q♥</div>
-
             <h3>Comp Cost</h3>
-
             <p>$190,669</p>
+            <div class="kpi-foot">0.8% of the floor's expected win</div>
         </div>
-
         <div class="playing-card">
             <div class="corner top-left">J♣</div>
             <div class="corner bottom-right">J♣</div>
-
             <h3>Availability</h3>
-
-            <p>99.5%</p>
+            <p>99.6%</p>
+            <div class="kpi-foot">$90K expected win lost to downtime</div>
         </div>
-
     </div>
-
 </section>
-    <main>
 
+<!-- ===================== MACHINES (Q1) ===================== -->
 <section id="machines" class="dashboard-section">
 
     <div class="section-header">
+        <div class="eyebrow">Q1 · Machines</div>
         <h2>♣ Machine Performance</h2>
-
-        <p>
-            Which machines are truly underperforming after
-            accounting for availability and luck?
-        </p>
+        <p>Which machines are truly underperforming after accounting for exposure, availability, luck and location?</p>
     </div>
 
-    <div class="question-card">
-
-        <h3>Key Finding</h3>
-
-        <p>
-            None of the manager's bottom 10 machines are actually weak machines.
-        </p>
-
-    </div>
-
-
-    <div class="dashboard-card">
-
-    <h3>Whole Floor Performance</h3>
-
-    <p>
-        Daily Coin-In compared with expected win (Theo).
-        Major spikes correspond to the Super Bowl,
-        Winter Tournament, March Madness, and EDC weekend.
-    </p>
-
-    <iframe
-        class="chart-frame"
-        src="whole_floor_performance.html">
-    </iframe>
-</div>
-
-
-
-
-
-
-
-
-    <div class="dashboard-row">
-
+    <div class="grid grid-main">
         <div class="dashboard-card">
-
-            <h3>Theo vs Actual Win</h3>
-
-            <iframe
-    class="chart-frame"
-    src="theo_vs_actual.html">
-</iframe>
-</div>
-
-
-
-
-      <div class="dashboard-row2">
+            <h3>Whole Floor Performance</h3>
+            <p>Daily coin-in and expected win (theo × 10). Strong weekly rhythm, no long-term decline. <strong>Drag the gold strip under the chart to zoom.</strong></p>
+            <iframe loading="lazy" class="chart-frame" src="whole_floor_performance.html"></iframe>
+        </div>
+        <div class="question-card">
+            <h3>Key Finding</h3>
+            <p>
+                None of the manager's bottom 10 is a weak machine. 7 sit in the Back Forty and 3 were on the floor
+                for only part of the period.
+            </p>
+            <p>
+                Location and game explain 96% of the differences between machines; the machine itself about 1%.
+            </p>
+        </div>
+    </div>
 
     <div class="dashboard-card">
-
-        <h3>The Two Humps</h3>
-
+        <h3>Three Tests on All 310 Machines</h3>
         <p>
-            Low-performing machines cluster primarily in
-            Back Forty and a handful of game themes.
+            Left = players avoid the machine compared with its own bank and game. Down = it paid out more than designed.
+            White rings are the manager\'s bottom 10; red, orange and gold dots are the 7 machines that actually failed a test.
+            Only one machine (M-1158) is on both lists.
         </p>
-
-        <iframe
-            class="chart-frame"
-            src="two_humps.html">
-        </iframe>
-
+        <iframe loading="lazy" class="chart-frame tall" src="three_tests.html"></iframe>
     </div>
 
-</div>
-
-
-
-
-
-
-
-
-    <div class="bottom-row">
-
-    <div class="evidence-card">
-
-        <h3>Evidence</h3>
-
-        <p>
-            Location effect: Machines in the Back Forty zone suffer from 35% lower occupancy than average floor space, driving down overall coin-in regardless of machine theme.
-
-Low-stakes design: Games like Comet Cash and Lucky Lanterns have normal occupancy rates, but lower average bet caps ($1 max) that reduce total dollar play.
-
-Noise vs. underperformance: Only a tiny fraction of machine-level variance comes from the machine itself. Most "underperformance" is driven by placement, room traffic, and bet limits rather than a bad game cabinet.
-        </p>
-
+    <!-- Interactive table (idea from the example layout). Values are a snapshot of the Q1 notebook outputs. -->
+    <div class="dashboard-card">
+        <div class="table-head">
+            <div>
+                <h3>The Manager's List vs Ours</h3>
+                <p>Click a column to sort and a row for details.</p>
+            </div>
+            <input type="search" id="machine-search" class="machine-search" placeholder="Find a machine, zone or game…" aria-label="Find a machine">
+        </div>
+        <div class="table-scroll">
+            <table class="machine-table">
+                <thead><tr>
+                    <th data-k="id">Machine</th>
+                    <th data-k="zone">Zone</th>
+                    <th data-k="effect">vs own bank &amp; game</th>
+                    <th data-k="manager">Manager's bottom 10</th>
+                    <th data-k="verdict">Our verdict</th>
+                </tr></thead>
+                <tbody id="machine-rows"></tbody>
+            </table>
+        </div>
+        <div class="detail" id="machine-detail"></div>
     </div>
 
-    <div class="decision-card">
-
-        <h3>Decision</h3>
-
-        <p>
-            Reallocate low-earning themes: Move high-stakes games into underperforming zones like Back Forty to boost dollar yield per active seat.
-
-Retrain layout around traffic: Shift low-stakes/high-occupancy games into high-foot-traffic areas to maximize table and machine utilization.
-
-Avoid hasty replacements: Hold off on spending budget to buy 10 replacement machines immediately, as game replacements (like Royal Draw) only yield minor return improvements that do not pay back full machine replacement costs.
-        </p>
-
+    <div class="grid grid-even detail-only">
+        <div class="dashboard-card">
+            <h3>The Two Humps</h3>
+            <p>The low-earning hump is the Back Forty zone plus four low-stakes games.</p>
+            <iframe loading="lazy" class="chart-frame" src="two_humps.html"></iframe>
+        </div>
+        <div class="dashboard-card">
+            <h3>Manager's Bottom 10 vs Their Neighbours</h3>
+            <p>Each red diamond is a bottom-10 machine. All play normally for their bank and game.</p>
+            <iframe loading="lazy" class="chart-frame" src="bottom10_machine_effect.html"></iframe>
+        </div>
     </div>
 
-</div>
+    <div class="grid grid-even detail-only">
+        <div class="dashboard-card">
+            <h3>What Explains the Differences?</h3>
+            <p>Zone and game together explain 96% of the gap between machines.</p>
+            <iframe loading="lazy" class="chart-frame" src="variance_explained.html"></iframe>
+        </div>
+        <div class="dashboard-card">
+            <h3>Same Machine, New Spot</h3>
+            <p>M-1152 moved from Back Forty to Main Entrance and its play per hour rose 106%.</p>
+            <iframe loading="lazy" class="chart-frame" src="machine_moves.html"></iframe>
+        </div>
+    </div>
+
+    <div class="grid grid-even detail-only">
+        <div class="dashboard-card">
+            <h3>Theo vs Actual Win</h3>
+            <p>Almost every machine sits close to its expected win.</p>
+            <iframe loading="lazy" class="chart-frame" src="theo_vs_actual.html"></iframe>
+        </div>
+        <div class="dashboard-card">
+            <h3>One Payout Lead: M-1158</h3>
+            <p>Kept 3% instead of 10% (luck z −4.6). A lead to inspect, not proof of a fault.</p>
+            <iframe loading="lazy" class="chart-frame" src="inspection_candidates_hold.html"></iframe>
+        </div>
+    </div>
+
+    <div class="grid grid-even">
+        <div class="evidence-card detail-only">
+            <h3>Evidence</h3>
+            <p><strong>Location:</strong> Back Forty play per working hour is 36% below the floor average, almost all from empty seats (occupancy −35%, bet size −1%).</p>
+            <p><strong>Game:</strong> Comet Cash and Lucky Lanterns have above-average occupancy but a $1 max bet. They are low-stakes games, not unpopular ones.</p>
+            <p><strong>Machine:</strong> only 5 machines are weaker than their own bank and game in both halves, by 6–14%. Machine effects barely repeat between Jan–Mar and Apr–Jun (correlation 0.29).</p>
+            <p><strong>Payouts:</strong> the floor kept 9.50% of coin-in against a designed 9.46%, so there is no floor-wide leak. M-1158 is the one exception.</p>
+            <p><strong>Replacements:</strong> the two real swaps barely helped. The new Royal Draw added only $0.39 theo per hour.</p>
+        </div>
+        <div class="decision-card">
+            <h3>Decision</h3>
+            <p><strong>Don't replace the bottom 10.</strong> Leasing replacements costs $16,900 and recovers at most about $3,250 in July.</p>
+            <p><strong>Inspect M-1158</strong> for a payout fault ($1,200).</p>
+            <p><strong>Move Back Forty machines into the 2 empty Center Pit slots</strong>, where play runs about 85% higher.</p>
+        </div>
+    </div>
 
 </section>
 
-
+<!-- ===================== DEMAND (Q2) ===================== -->
 <section id="demand" class="dashboard-section">
 
     <div class="section-header">
-
+        <div class="eyebrow">Q2 · Demand</div>
         <h2>♦ Demand Analysis</h2>
-
-        <p>
-            What changed in demand across the casino floor?
-        </p>
-
+        <p>What changed in demand across the casino floor, and why?</p>
     </div>
 
-    <div class="question-card">
-
-        <h3>Key Finding</h3>
-
-        <p>
-            Low-performing areas like the Back Forty suffer because their seats sit empty 35% more than the floor average, while seated players actually bet at normal rates.
-        </p>
-
-    </div>
-
-    <div class="dashboard-row">
-
+    <div class="grid grid-main">
         <div class="dashboard-card">
-
-            <h3>(place holder)</h3>
-
+            <h3>Event Lift</h3>
+            <p>Coin-in on event days vs a normal day with the same weekday.</p>
+            <iframe loading="lazy" class="chart-frame" src="event_lift.html"></iframe>
         </div>
-
-        <div class="dashboard-card">
-
-            <h3>Zone Traffic</h3>
-
-            <div class="placeholder-chart">
-                <iframe
-            class="chart-frame"
-            src="demand_heatmap.html">
-        </iframe>
-            </div>
-
+        <div class="question-card">
+            <h3>Key Finding</h3>
+            <p>Demand was stable: a strong weekly rhythm and no long-term decline.</p>
+            <p>
+                Sports weekends drove the biggest spikes (Super Bowl +23%, college basketball +19%). Our own Winter
+                Tournament (+18%, about $83K extra theo) worked as well as a major outside event. Conventions barely
+                moved play.
+            </p>
         </div>
-
     </div>
 
-    <div class="evidence-card">
+    <div class="grid grid-even detail-only">
+        <div class="dashboard-card">
+            <h3>Occupancy vs Bet Size, by Zone</h3>
+            <p>Zones differ in how often seats are used, not in how much seated players bet.</p>
+            <iframe loading="lazy" class="chart-frame" src="demand_decomposition.html"></iframe>
+        </div>
+        <div class="dashboard-card">
+            <h3>Demand by Zone and Game</h3>
+            <p>Coin-in per available hour; brackets = machines in each cell.</p>
+            <iframe loading="lazy" class="chart-frame" src="demand_heatmap.html"></iframe>
+        </div>
+    </div>
 
-        <h3>Evidence</h3>
-
-        <p>
-            The heatmap shows that physical location heavily drives play frequency, with zones like the Back Forty generating significantly lower coin-in per available hour compared to high-traffic areas like the Main Entrance.
-            Games with low total earnings (such as Comet Cash and Lucky Lanterns) actually maintain solid machine counts and occupancy in certain zones, proving they are popular low-stakes options rather than broken or unwanted games.
-        </p>
-
+    <div class="grid grid-main detail-only">
+        <div class="dashboard-card">
+            <h3>Back Forty Is Overflow Seating</h3>
+            <iframe loading="lazy" class="chart-frame" src="backforty_hourly.html"></iframe>
+        </div>
+        <div class="evidence-card">
+            <h3>Evidence</h3>
+            <p>
+                Back Forty occupancy is 52% of the floor's in the morning but 81% at the 7–9 p.m. peak.
+                It fills when the busy zones are full, which points to traffic rather than the games.
+            </p>
+            <p>Every event was announced well in advance, so events are a valid forecast input.</p>
+        </div>
     </div>
 
 </section>
+
+<!-- ===================== DOWNTIME (Q3) ===================== -->
+<section id="downtime" class="dashboard-section">
+
+    <div class="section-header">
+        <div class="eyebrow">Q3 · Downtime</div>
+        <h2>♠ Downtime</h2>
+        <p>How much play was lost to downtime, and where?</p>
+    </div>
+
+    <div class="grid grid-main">
+        <div class="dashboard-card">
+            <h3>Lost Expected Win by Manufacturer</h3>
+            <iframe loading="lazy" class="chart-frame" src="downtime_by_manufacturer.html"></iframe>
+        </div>
+        <div class="question-card">
+            <h3>Key Finding</h3>
+            <p>Downtime cost $90,313 of expected win, only 0.38% of the total (about $499 a day across the floor).</p>
+            <p>Ridgeline machines lose 2–3× more per machine than other makes.</p>
+        </div>
+    </div>
+
+    <div class="grid grid-main detail-only">
+        <div class="dashboard-card">
+            <h3>Worst 15 Machines</h3>
+            <p>14 of the 15 are Ridgeline.</p>
+            <iframe loading="lazy" class="chart-frame" src="downtime_top15.html"></iframe>
+        </div>
+        <div class="evidence-card">
+            <h3>What This Means</h3>
+            <p>Too small to justify an extra technician: $11,520 for about $1,700 of expected benefit in July.</p>
+            <p>Monthly losses held at $11K–$18K with no trend.</p>
+            <p>Assumes a broken machine would have played at its average rate; breakdowns at quiet hours cost less.</p>
+        </div>
+    </div>
+
+</section>
+
+<!-- ===================== PLAYERS (Q4) ===================== -->
+<section id="players" class="dashboard-section">
+
+    <div class="section-header">
+        <div class="eyebrow">Q4 · Players</div>
+        <h2>♥ Players</h2>
+        <p>What did tracked players wager, get back and net?</p>
+    </div>
+
+    <div class="grid grid-main">
+        <div class="dashboard-card">
+            <h3>How Concentrated Are Losses?</h3>
+            <iframe loading="lazy" class="chart-frame" src="player_loss_concentration.html"></iframe>
+        </div>
+        <div class="question-card">
+            <h3>Key Finding</h3>
+            <p>Card players wagered $163.8M and lost $15.6M (about 9.5%).</p>
+            <p>The median player lost $72 over six months; 13.6% came out ahead. The top 10% of losing players account for 53% of all losses.</p>
+        </div>
+    </div>
+
+    <div class="grid grid-main detail-only">
+        <div class="dashboard-card">
+            <h3>Players vs Losses, by Tier</h3>
+            <iframe loading="lazy" class="chart-frame" src="tier_players_vs_losses.html"></iframe>
+        </div>
+        <div class="evidence-card">
+            <h3>Responsible Play</h3>
+            <p>Gold and Platinum are about 6% of players but 57% of losses. Tiers are earned by playing, so this is association, not cause.</p>
+            <p>We suggest only protective ideas for heavy losers, never actions that target them to gamble more.</p>
+        </div>
+    </div>
+
+</section>
+
+<!-- ===================== LOYALTY (Q5) ===================== -->
+<section id="loyalty" class="dashboard-section">
+
+    <div class="section-header">
+        <div class="eyebrow">Q5 · Loyalty</div>
+        <h2>♣ Loyalty &amp; Comps</h2>
+        <p>What did the comp program cost, and did anything change?</p>
+    </div>
+
+    <div class="grid grid-main">
+        <div class="dashboard-card">
+            <h3>The May 1 Price Cut</h3>
+            <p>Points per $1 of comp: Base 15 → 7, Gold 12 → 5.66, Platinum 9 → 4.22.</p>
+            <iframe loading="lazy" class="chart-frame" src="comp_price_change.html"></iframe>
+        </div>
+        <div class="question-card">
+            <h3>Key Finding</h3>
+            <p>Comps cost $190,669: 0.8% of the floor's expected win, or 1.1–1.3% of card players' expected win. On May 1 the price of comps in points was cut about 53% in every tier.</p>
+            <p>Slightly more players redeemed and comp cost rose about 8%, but visits and play showed no measurable lift.</p>
+        </div>
+    </div>
+
+    <div class="grid grid-main detail-only">
+        <div class="dashboard-card">
+            <h3>Weekly Comp Cost by Tier</h3>
+            <iframe loading="lazy" class="chart-frame" src="comp_weekly_by_tier.html"></iframe>
+        </div>
+        <div class="evidence-card">
+            <h3>Risk to Flag</h3>
+            <p>Each unredeemed point is now worth about twice as much in comps, so the future cost of saved points has roughly doubled.</p>
+            <p>With two months of data and no control group, the effect on play is unproven.</p>
+        </div>
+    </div>
+
+</section>
+
+<!-- ===================== MODEL ===================== -->
 <section id="model" class="dashboard-section">
-    <div class="section-header">
-    <h2>♦ Forecast Validation</h2>
-    </div>
-    <div class="dashboard-row">
-
-    <div class="dashboard-card">
-        <h3>Baseline MAE</h3>
-        <p>$0</p>
-    </div>
-
-    <div class="dashboard-card">
-        <h3>Forecast MAE</h3>
-        <p>$0</p>
-    </div>
-
-</div>
-
-
-    <div class="chart-placeholder">
-
-        Actual vs Predicted Chart
-
-    </div>
-
-</section>
-
-<section id="recommendations" class="dashboard-section">
 
     <div class="section-header">
-        <h2>♥ Recommendations</h2>
-
-        <p>
-            Recommended actions for the July $100,000 budget.
-        </p>
+        <div class="eyebrow">Forecast</div>
+        <h2>♦ Forecast Validation</h2>
+        <p>Trained on January–May, tested on June (the hottest, softest month, so the toughest test).</p>
     </div>
 
     <div class="recommendation-grid">
-
         <div class="recommendation-card">
-
-            <h3>Move 8 Machines</h3>
-
-            <p><strong>Cost:</strong> $14,400</p>
-
-            <p><strong>Expected Effect:</strong>
-                Increase utilization.</p>
-
-            <p><strong>Uncertainty:</strong>
-                Medium</p>
-
-            <p><strong>Measurement:</strong>
-                Compare 30-day performance before and after.
-            </p>
-
+            <h3>Baseline MAE</h3>
+            <p><strong>$46.3K</strong> per day</p>
+            <p>Best floor baseline: weekday median × event-class boost. A single event boost does worse, at $60.7K.</p>
         </div>
-
         <div class="recommendation-card">
-
-            <h3>Add Technician</h3>
-
-            <p><strong>Cost:</strong> $11,520</p>
-
-            <p><strong>Expected Effect:</strong>
-                Reduce downtime.
-            </p>
-
-            <p><strong>Uncertainty:</strong>
-                Medium
-            </p>
-
-            <p><strong>Measurement:</strong>
-                Track downtime hours.
-            </p>
-
+            <h3>Forecast MAE</h3>
+            <p><strong>$42.1K</strong> per day, 9% better</p>
+            <p>Gradient boosting on bank, game, weekday and event class, summed across all 310 machines. June total within 1.1% of actual.</p>
         </div>
-
         <div class="recommendation-card">
-
-            <h3>Inspect RTP Settings</h3>
-
-            <p><strong>Cost:</strong> $6,000</p>
-
-            <p><strong>Expected Effect:</strong>
-                Verify machine configuration.
-            </p>
-
-            <p><strong>Uncertainty:</strong>
-                Low
-            </p>
-
-            <p><strong>Measurement:</strong>
-                Compare theo and observed performance.
-            </p>
-
+            <h3>July Forecast</h3>
+            <p><strong>$39.9M</strong> coin-in (P10 $38.0M – P90 $41.5M)</p>
+            <p>About $3.8M expected win. Refit on January–June, with the Jul 18–20 promotion and a heat adjustment.</p>
         </div>
+    </div>
 
+    <div class="grid grid-main">
+        <div class="dashboard-card">
+            <h3>Actual vs Predicted, June</h3>
+            <p>Daily floor coin-in on the held-out month. Gold bands are events.</p>
+            <iframe loading="lazy" class="chart-frame" src="forecast_vs_actual.html"></iframe>
+        </div>
+        <div class="question-card">
+            <h3>Key Finding</h3>
+            <p><strong>Event classes matter most.</strong> Headline weekends lift play ×1.19, long or weekday events only ×1.02. One average boost over-forecasts Locals Week.</p>
+            <p>Every model was tested only on days it never saw, and uses only inputs known in advance.</p>
+        </div>
+    </div>
+
+    <div class="dashboard-card detail-only">
+        <h3>July 2025 Forecast</h3>
+        <p>
+            Floor total with its P10–P90 band, split by zone. The dashed grey line is the no-promotion P90: the promotion
+            counts as working only if Jul 18–20 coin-in beats about $4.80M.
+        </p>
+        <iframe loading="lazy" class="chart-frame tall" src="july_forecast.html"></iframe>
+    </div>
+
+    <div class="grid detail-only">
+        <div class="dashboard-card">
+            <h3>Heat Explains Part of June</h3>
+            <p>Each °C above 30°C lowers coin-in by 0.24%, about −2% at June's average high.</p>
+            <iframe loading="lazy" class="chart-frame" src="heat_effect.html"></iframe>
+        </div>
+        <div class="dashboard-card">
+            <h3>Forecast Misses Come from Foot Traffic</h3>
+            <p>On days the forecast was off, it was mostly because more or fewer people came in than usual. Giving the model that day's actual foot traffic cuts June error by 37%, but traffic is only known after the day, so it explains misses rather than predicting them.</p>
+            <iframe loading="lazy" class="chart-frame" src="traffic_oracle.html"></iframe>
+        </div>
+    </div>
+
+    <div class="evidence-card detail-only">
+        <h3>Limitations</h3>
+        <p>
+            The heat effect only appears once June is included, so it is an assumption for July rather than a validated
+            feature (July normal high of 41°C still to confirm and cite). July 4 adds extra uncertainty. A next-day model
+            with lagged sales reaches $38.3K, but it can only forecast one day ahead, so it isn't used for the July plan.
+        </p>
     </div>
 
 </section>
+
+<!-- ===================== RECOMMENDATIONS (Q6) ===================== -->
+<section id="recommendations" class="dashboard-section">
+
+    <div class="section-header">
+        <div class="eyebrow">Q6 · The $100,000 plan</div>
+        <h2>♥ Recommendations</h2>
+        <p>Fund 3 actions for $19,800 in July and keep $80,200.</p>
+    </div>
+
+    <div class="dashboard-card">
+        <iframe loading="lazy" class="chart-frame short" src="budget_allocation.html"></iframe>
+    </div>
+
+    <div class="recommendation-grid">
+        <div class="recommendation-card">
+            <h3>Inspect M-1158</h3>
+            <p><strong>Cost:</strong> $1,200 (1-day lead)</p>
+            <p><strong>Expected July benefit:</strong> $0 – $2.9K – $5.8K. About $73K a year if a fault is fixed.</p>
+            <p><strong>Uncertainty:</strong> High. Assumes a 50% chance of a fixable payout fault.</p>
+            <p><strong>Measurement:</strong> Inspection finding; July actual hold vs the designed 10%.</p>
+        </div>
+        <div class="recommendation-card">
+            <h3>Move 2 Back Forty Machines to Center Pit</h3>
+            <p><strong>Cost:</strong> $3,600 (2-day lead)</p>
+            <p><strong>Expected July benefit:</strong> $6.7K – $13.5K – $16.2K</p>
+            <p><strong>Uncertainty:</strong> Medium. M-1152's move doubled its play, but there are only two empty slots.</p>
+            <p><strong>Measurement:</strong> Coin-in per working hour vs the machines' old level and their new neighbours.</p>
+        </div>
+        <div class="recommendation-card">
+            <h3>Promotion Weekend, Jul 18–20</h3>
+            <p><strong>Cost:</strong> $15,000 (14-day lead)</p>
+            <p><strong>Expected July benefit:</strong> $34.6K – $60.6K – $86.5K</p>
+            <p><strong>Uncertainty:</strong> Medium. Assumes summer gets 40–100% of the Winter Tournament's $86.5K net lift.</p>
+            <p><strong>Measurement:</strong> Jul 18–20 coin-in above $4.80M, the forecast's no-promotion P90; theo, comps and F&amp;B vs normal same weekdays.</p>
+        </div>
+    </div>
+
+    <div class="grid grid-main detail-only">
+        <div class="dashboard-card">
+            <h3>Benefit vs Cost of Every Option</h3>
+            <p>Bar = low-to-high July benefit, dot = central case, red ✕ = cost. Ticked actions are funded.</p>
+            <iframe loading="lazy" class="chart-frame" src="q6_cost_vs_benefit.html"></iframe>
+        </div>
+        <div class="evidence-card">
+            <h3>Rejected</h3>
+            <p>Extra technician (central net −$9.8K), leasing replacements for the 5 weak machines (−$15.3K) and Ridgeline preventive maintenance (−$5.9K) cost more than they return in July.</p>
+            <p>Back Forty signs pay off (+$7.3K) but return less than moving machines, and only 3 action types are allowed.</p>
+            <p><strong>Next in line for August:</strong> a comp pilot with a control group ($4,000) to test whether the May 1 price cut changes play.</p>
+        </div>
+    </div>
+
 </section>
 
-<section id="evidence" class="dashboard-section">
-    <div class="section-header">
-    <h2>♠ Claims & Evidence</h2>
-</div>
-    <div class="evidence-table">
+<!-- ===================== EVIDENCE ===================== -->
+<section id="evidence" class="dashboard-section detail-only">
 
+    <div class="section-header">
+        <div class="eyebrow">Method</div>
+        <h2>♠ Claims &amp; Evidence</h2>
+    </div>
+
+    <div class="evidence-table">
         <table>
             <tr>
                 <th>Claim</th>
@@ -402,21 +520,206 @@ Avoid hasty replacements: Hold off on spending budget to buy 10 replacement mach
                 <th>Alternative Explanation</th>
                 <th>Limitation</th>
             </tr>
-
             <tr>
-                <td>Zone 4 had increased demand</td>
-                <td>property_day</td>
-                <td>Convention traffic</td>
-                <td>Traffic counters imperfect</td>
+                <td>The manager's bottom 10 are not weak machines</td>
+                <td>Machine effects vs own bank and game; three-test chart</td>
+                <td>A weak machine hidden inside a weak bank</td>
+                <td>Machine effects are noisy (half-to-half correlation 0.29)</td>
             </tr>
-
+            <tr>
+                <td>Back Forty underperforms on empty seats, not bet size</td>
+                <td>Occupancy vs bet regression; M-1152 move (+106%)</td>
+                <td>Back Forty holds older or less popular cabinets</td>
+                <td>Only 4 moves to learn from</td>
+            </tr>
+            <tr>
+                <td>M-1158 may have a payout fault</td>
+                <td>Luck z = −4.6; kept 3% vs designed 10%</td>
+                <td>Extreme but genuine bad luck</td>
+                <td>Statistics flag it; only an inspection confirms it</td>
+            </tr>
+            <tr>
+                <td>Downtime is a small cost</td>
+                <td>$90,313 lost, 0.38% of expected win</td>
+                <td>Breakdowns at busy hours cost more than average</td>
+                <td>Assumes machines would play at their average rate</td>
+            </tr>
+            <tr>
+                <td>The May 1 comp price cut did not lift play</td>
+                <td>Visits, coin-in and carded share flat after May 1</td>
+                <td>The effect may take longer than two months</td>
+                <td>No control group</td>
+            </tr>
         </table>
-
     </div>
 
 </section>
 
+<footer class="site-footer">
+    <div class="chip-row" aria-hidden="true">
+        <span style="--c:#B3261E"></span><span style="--c:#1F4E9C"></span><span style="--c:#1E7B4F"></span>
+        <span style="--c:#1C1C1E"></span><span style="--c:#5B2C83"></span><span style="--c:#C98B1F"></span>
+    </div>
+    <div class="brand">♠ THE GILDED ACE · TEAM 116 ♠</div>
+    <div class="small">Dashboard Royale · TAMU Datathon · Gilded Ace floor data, January–June 2025</div>
+</footer>
+
 </main>
+
+<script>
+// Snapshot of the Q1 notebook outputs: the manager's bottom 10 and our 7 flagged machines.
+// effect = play vs the machine's own bank and game (Model 2); z = luck z-score; lost = $ expected win lost per day.
+const MACHINES = [
+  { id: "M-1158", game: "Desert Gold",     zone: "Back Forty",      effect:  2.9, manager: true,  verdict: "Inspect",           tone: "red",    note: "Kept 3% instead of the designed 10% (luck z −4.6, about 2 in a million by chance). About $200 of expected win lost per day. Low earnings are also partly location: it sits in Back Forty." },
+  { id: "M-1054", game: "Prairie Thunder", zone: "Garage Entrance", effect:  3.5, manager: false, verdict: "Watch",             tone: "orange", note: "Borderline payout result (luck z −2.8), about $80 a day below expected. Recalculate after July; inspect only if z falls below −3." },
+  { id: "M-1184", game: "Jackpot Summit",  zone: "Back Forty",      effect: -14.0, manager: false, verdict: "Weak vs neighbours", tone: "gold",  note: "14% less play than its own bank and game, in both halves of the period. About $41 a day. Too small to pay back a $3,380 lease in July." },
+  { id: "M-1154", game: "Jackpot Summit",  zone: "Back Forty",      effect: -10.5, manager: false, verdict: "Weak vs neighbours", tone: "gold",  note: "10.5% below its bank and game in both halves. About $33 a day." },
+  { id: "M-1084", game: "Lucky Lanterns",  zone: "Hotel Corridor",  effect:  -7.1, manager: false, verdict: "Weak vs neighbours", tone: "gold",  note: "7% below its bank and game in both halves. About $22 a day." },
+  { id: "M-1171", game: "Prairie Thunder", zone: "Bar Row",         effect:  -6.8, manager: false, verdict: "Weak vs neighbours", tone: "gold",  note: "7% below its bank and game in both halves. About $34 a day." },
+  { id: "M-1081", game: "Lucky Lanterns",  zone: "Main Entrance",   effect:  -5.6, manager: false, verdict: "Weak vs neighbours", tone: "gold",  note: "6% below its bank and game in both halves. About $21 a day." },
+  { id: "M-5076", game: "Royal Draw",      zone: "Back Forty",      effect: 11.8, manager: true,  verdict: "Keep: partial period", tone: "",  note: "Only 49 days on the floor. House win $3,573. Plays 12% above its bank and game." },
+  { id: "M-1120", game: "Royal Draw",      zone: "Back Forty",      effect: -1.6, manager: true,  verdict: "Keep: partial period", tone: "",  note: "Only 132 days on the floor before it was replaced. House win $16,355." },
+  { id: "M-1118", game: "Platinum Reels",  zone: "High-Limit Room", effect: 19.8, manager: true,  verdict: "Keep: partial period", tone: "",  note: "Only 55 days on the floor before it was replaced. House win $20,050. Plays 20% above its bank and game." },
+  { id: "M-1238", game: "Royal Draw",      zone: "Back Forty",      effect:  3.7, manager: true,  verdict: "Keep: location",    tone: "",       note: "Full period. House win $24,933. Normal for its bank and game; low because Back Forty seats sit empty." },
+  { id: "M-1181", game: "Comet Cash",      zone: "Back Forty",      effect:  1.5, manager: true,  verdict: "Keep: location",    tone: "",       note: "Full period. House win $26,977. Low-stakes game in a low-traffic zone." },
+  { id: "M-1035", game: "Royal Draw",      zone: "Back Forty",      effect:  3.0, manager: true,  verdict: "Keep: location",    tone: "",       note: "Full period. House win $30,304. Normal for its bank and game." },
+  { id: "M-1179", game: "Comet Cash",      zone: "Back Forty",      effect:  5.2, manager: true,  verdict: "Keep: location",    tone: "",       note: "Full period. House win $30,394. Plays 5% above its bank and game." },
+  { id: "M-1017", game: "Royal Draw",      zone: "Back Forty",      effect: -0.7, manager: true,  verdict: "Keep: location",    tone: "",       note: "Full period. House win $31,940. Normal for its bank and game." },
+  { id: "M-1265", game: "Comet Cash",      zone: "Back Forty",      effect:  4.5, manager: true,  verdict: "Keep: location",    tone: "",       note: "Full period. House win $32,071. Low-stakes game in a low-traffic zone." },
+];
+
+(function () {
+  const $ = id => document.getElementById(id);
+  const state = { sort: "effect", asc: true, q: "", sel: null };
+  const val = (m, k) => k === "manager" ? (m.manager ? 1 : 0) : m[k];
+
+  function draw() {
+    const list = MACHINES
+      .filter(m => (m.id + m.game + m.zone + m.verdict).toLowerCase().includes(state.q))
+      .sort((a, b) => {
+        const A = val(a, state.sort), B = val(b, state.sort);
+        return (A > B ? 1 : A < B ? -1 : 0) * (state.asc ? 1 : -1);
+      });
+    $("machine-rows").innerHTML = list.map(m => `
+      <tr data-id="${m.id}" class="${state.sel === m.id ? "on" : ""}" tabindex="0">
+        <td><b>${m.id}</b><br><span class="sub">${m.game}</span></td>
+        <td>${m.zone}</td>
+        <td>${m.effect > 0 ? "+" : ""}${m.effect.toFixed(1)}%</td>
+        <td>${m.manager ? "Yes" : "—"}</td>
+        <td><span class="pill ${m.tone}">${m.verdict}</span></td>
+      </tr>`).join("") || `<tr><td colspan="5" class="sub">No machines match.</td></tr>`;
+    document.querySelectorAll(".machine-table th[data-k]").forEach(th => {
+      th.textContent = th.textContent.replace(/ [↑↓]$/, "") + (th.dataset.k === state.sort ? (state.asc ? " ↑" : " ↓") : "");
+    });
+    const m = list.find(x => x.id === state.sel);
+    $("machine-detail").className = "detail" + (m ? " show" : "");
+    if (m) $("machine-detail").innerHTML = `<b>${m.id} · ${m.game} · ${m.zone}</b><br>${m.note}`;
+  }
+
+  $("machine-search").oninput = e => { state.q = e.target.value.toLowerCase(); draw(); };
+  document.querySelectorAll(".machine-table th[data-k]").forEach(th => th.onclick = () => {
+    state.asc = state.sort === th.dataset.k ? !state.asc : true;
+    state.sort = th.dataset.k; draw();
+  });
+  $("machine-rows").onclick = e => {
+    const tr = e.target.closest("tr[data-id]"); if (!tr) return;
+    state.sel = state.sel === tr.dataset.id ? null : tr.dataset.id; draw();
+  };
+  $("machine-rows").onkeydown = e => { if (e.key === "Enter") $("machine-rows").onclick(e); };
+  draw();
+})();
+</script>
+
+<script>
+// Compact / Detailed report switch. Remembers the reader's choice in this browser.
+(function () {
+  var KEY = "gildedAceView", DEFAULT = "compact";
+  var buttons = document.querySelectorAll(".view-toggle button");
+  function setView(mode) {
+    document.body.classList.toggle("compact", mode === "compact");
+    buttons.forEach(function (b) {
+      var on = b.dataset.view === mode;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on);
+    });
+    try { localStorage.setItem(KEY, mode); } catch (e) {}
+  }
+  var saved = DEFAULT;
+  try { saved = localStorage.getItem(KEY) || DEFAULT; } catch (e) {}
+  buttons.forEach(function (b) { b.onclick = function () { setView(b.dataset.view); }; });
+  // A nav link to something hidden in Compact (e.g. Evidence) switches to Detailed first
+  document.querySelectorAll('nav a[href^="#"]').forEach(function (a) {
+    a.addEventListener("click", function () {
+      var target = document.querySelector(a.getAttribute("href"));
+      if (target && document.body.classList.contains("compact") && target.closest(".detail-only")) setView("detailed");
+    });
+  });
+  setView(saved);
+})();
+</script>
+
+<script>
+// Cosmetics: KPI count-up, fade-in on scroll, scroll progress, active nav link, back-to-top.
+(function () {
+  var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // KPI numbers count up from zero once
+  if (!calm) {
+    document.querySelectorAll(".playing-card > p").forEach(function (el) {
+      var m = el.textContent.trim().match(/^(\D*)([\d,]+(?:\.\d+)?)(.*)$/);
+      if (!m) return;
+      var prefix = m[1], raw = m[2], suffix = m[3], target = parseFloat(raw.replace(/,/g, ""));
+      var decimals = (raw.split(".")[1] || "").length, commas = raw.indexOf(",") >= 0, start = null;
+      function fmt(v) {
+        var s = v.toFixed(decimals);
+        if (commas) s = Number(s).toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+        return prefix + s + suffix;
+      }
+      function step(t) {
+        if (start === null) start = t;
+        var k = Math.min(1, (t - start) / 1400), eased = 1 - Math.pow(1 - k, 3);
+        el.textContent = fmt(target * eased);
+        if (k < 1) requestAnimationFrame(step); else el.textContent = prefix + raw + suffix;
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  // Cards fade up as they come into view
+  var cards = document.querySelectorAll(".dashboard-card, .evidence-card, .decision-card, .question-card, .recommendation-card, .evidence-table");
+  if (!calm && "IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    cards.forEach(function (c) { c.classList.add("reveal"); io.observe(c); });
+  }
+
+  // Scroll progress bar + back-to-top chip
+  var bar = document.querySelector(".scroll-progress"), top = document.querySelector(".to-top");
+  function onScroll() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + "%";
+    top.classList.toggle("show", window.scrollY > 700);
+    if (!calm) document.documentElement.style.setProperty("--scroll", Math.round(window.scrollY));
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  top.onclick = function () { window.scrollTo({ top: 0, behavior: calm ? "auto" : "smooth" }); };
+  onScroll();
+
+  // Highlight the nav link for the section being read
+  var links = {};
+  document.querySelectorAll('nav .nav-links a[href^="#"]').forEach(function (a) { links[a.getAttribute("href").slice(1)] = a; });
+  if ("IntersectionObserver" in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting || !links[e.target.id]) return;
+        Object.keys(links).forEach(function (k) { links[k].classList.toggle("active", k === e.target.id); });
+      });
+    }, { rootMargin: "-35% 0px -60% 0px" });
+    Object.keys(links).forEach(function (id) { var s = document.getElementById(id); if (s) spy.observe(s); });
+  }
+})();
+</script>
 
 </body>
 </html>

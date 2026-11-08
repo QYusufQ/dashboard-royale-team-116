@@ -1,0 +1,302 @@
+/* Layout only: widths, grids and spacing, borrowed from the Dashboard Royale example.
+   Colors, fonts and card styling stay in style.css. Load this file AFTER style.css. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* One centered column: every box shares the same left and right edge */
+.wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+main.wrap > section,
+.wrap .dashboard-section { width: 100%; max-width: none; margin-left: 0; margin-right: 0; }
+.dashboard-section > * { width: 100%; max-width: 100%; margin-left: 0; margin-right: 0; }
+.dashboard-section > * + * { margin-top: 20px; }
+
+/* Grids: wide chart + side card, or two equal halves. Stack on phones. */
+.grid { display: grid; gap: 20px; }
+.grid-main { grid-template-columns: 1.6fr 1fr; }
+.grid-even { grid-template-columns: 1fr 1fr; }
+.grid > * { margin: 0 !important; min-width: 0; width: auto; }
+
+/* Section heading: small gold eyebrow above the title */
+.eyebrow { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: #EAA244; font-weight: 600; margin-bottom: 4px; }
+
+/* Context line under each KPI number */
+.kpi-foot { font-size: 12px; opacity: .7; margin-top: 4px; line-height: 1.35; }
+
+/* Chart frames */
+.chart-frame { width: 100%; border: 0; display: block; }
+.chart-frame.short { height: 210px; }
+.chart-frame.tall { height: 640px; }
+
+/* Machine table (sortable, searchable, click a row for details) */
+.table-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.machine-search { border: 1px solid rgba(255,255,255,.18); background: transparent; color: inherit; border-radius: 8px;
+                  height: 38px; padding: 0 12px; font: inherit; width: 240px; }
+.table-scroll { overflow-x: auto; }
+.machine-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.machine-table th { text-align: left; font-weight: 500; opacity: .75; padding: 10px 12px; cursor: pointer;
+                    border-bottom: 1px solid rgba(255,255,255,.14); white-space: nowrap; user-select: none; }
+.machine-table td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,.07); font-variant-numeric: tabular-nums; }
+.machine-table tbody tr { cursor: pointer; }
+.machine-table tbody tr:hover, .machine-table tbody tr.on { background: rgba(255,255,255,.06); }
+.machine-table .sub { font-size: 12px; opacity: .65; }
+.pill { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 11px; white-space: nowrap;
+        background: rgba(255,255,255,.10); }
+.pill.gold { background: rgba(234,162,68,.18); color: #EAA244; }
+.pill.red { background: rgba(228,87,46,.22); color: #FF8A65; }
+.pill.orange { background: rgba(255,159,28,.18); color: #FFB454; }
+.detail { margin-top: 14px; padding: 14px 16px; border-radius: 8px; background: rgba(234,162,68,.12);
+          font-size: 13px; display: none; }
+.detail.show { display: block; }
+
+@media (max-width: 860px) {
+  .grid-main, .grid-even { grid-template-columns: 1fr; }
+  .card-table { flex-wrap: wrap; }
+  .machine-search { width: 100%; }
+}
+
+/* Compact / Detailed switch: centered, large, glossy gold */
+.view-bar { display: flex; justify-content: center; margin: 32px 0 28px; }
+.view-toggle { display: inline-flex; gap: 6px; padding: 6px; border-radius: 999px;
+               background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+               border: 1px solid rgba(234,162,68,.55);
+               box-shadow: 0 8px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.12); }
+.view-toggle button { position: relative; overflow: hidden; border: 0; cursor: pointer;
+                      font-family: "Cinzel", serif; font-size: 18px; font-weight: 700; letter-spacing: .08em;
+                      padding: 14px 40px; border-radius: 999px; color: #EAA244; background: transparent;
+                      transition: transform .15s ease, box-shadow .2s ease, background .2s ease, color .2s ease; }
+.view-toggle button:hover { background: rgba(234,162,68,.12); transform: translateY(-1px); }
+.view-toggle button.on {
+  color: #1b1405;
+  background: linear-gradient(180deg, #FFE7A3 0%, #F2C25B 45%, #D9962B 55%, #B87818 100%);
+  box-shadow: 0 6px 18px rgba(234,162,68,.45), inset 0 1px 0 rgba(255,255,255,.7), inset 0 -2px 4px rgba(0,0,0,.25);
+  text-shadow: 0 1px 0 rgba(255,255,255,.45);
+}
+/* glossy shine across the top half of the active button */
+.view-toggle button.on::after { content: ""; position: absolute; left: 8%; right: 8%; top: 2px; height: 45%;
+                                border-radius: 999px; pointer-events: none;
+                                background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,0)); }
+.view-toggle button:focus-visible { outline: 2px solid #FFE7A3; outline-offset: 3px; }
+@media (max-width: 520px) { .view-toggle button { font-size: 15px; padding: 12px 24px; } }
+body.compact .detail-only { display: none !important; }
+/* In Compact, a row that lost one of its two cards lets the other fill the width */
+body.compact .grid:has(> .detail-only) { grid-template-columns: 1fr; }
+
+/* ===================== Cosmetics ===================== */
+
+/* Gold scroll-progress bar across the very top */
+.scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 9999; pointer-events: none;
+                   background: linear-gradient(90deg, #B87818, #FFE7A3, #EAA244); box-shadow: 0 0 10px rgba(234,162,68,.7); }
+
+/* Section titles in a gold foil gradient */
+.section-header h2 { background: linear-gradient(90deg, #FFE7A3 0%, #EAA244 45%, #B87818 100%);
+                     -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* Suit divider above every section */
+.dashboard-section::before { content: "♠   ♥   ♦   ♣"; display: block; text-align: center; white-space: pre;
+                             color: #EAA244; opacity: .65; font-size: 14px; margin: 12px 0 30px;
+                             background: linear-gradient(90deg, transparent 0%, rgba(234,162,68,.55) 30%, transparent 42%,
+                                                         transparent 58%, rgba(234,162,68,.55) 70%, transparent 100%)
+                                         center / 100% 1px no-repeat; }
+
+/* Cards lift and catch a gold edge on hover */
+.dashboard-card, .evidence-card, .decision-card, .question-card, .recommendation-card {
+  transition: transform .25s ease, box-shadow .25s ease; }
+.dashboard-card:hover, .evidence-card:hover, .decision-card:hover, .question-card:hover, .recommendation-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(0,0,0,.35), 0 0 0 1px rgba(234,162,68,.35); }
+
+/* KPI playing cards: tilt and a light sweep on hover */
+.playing-card { position: relative; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease; }
+.playing-card::after { content: ""; position: absolute; top: -50%; left: -75%; width: 50%; height: 200%; pointer-events: none;
+                       background: linear-gradient(105deg, transparent, rgba(255,255,255,.35), transparent);
+                       transform: rotate(8deg); transition: left .7s ease; }
+.playing-card:hover { transform: translateY(-6px) rotate(-1.5deg); box-shadow: 0 18px 36px rgba(0,0,0,.4), 0 0 18px rgba(234,162,68,.35); }
+.playing-card:hover::after { left: 130%; }
+
+/* Nav link for the section you're reading */
+nav .nav-links a { transition: color .2s ease, text-shadow .2s ease; }
+nav .nav-links a.active { color: #EAA244; text-shadow: 0 0 12px rgba(234,162,68,.6); }
+
+/* Back-to-top chip */
+.to-top { position: fixed; right: 22px; bottom: 22px; z-index: 9000; width: 52px; height: 52px; border-radius: 50%;
+          border: 2px dashed rgba(27,20,5,.5); cursor: pointer; font-size: 22px; color: #1b1405;
+          background: radial-gradient(circle at 35% 30%, #FFE7A3, #EAA244 55%, #B87818);
+          box-shadow: 0 8px 20px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.6);
+          opacity: 0; transform: translateY(12px) scale(.9); pointer-events: none;
+          transition: opacity .25s ease, transform .25s ease; }
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { transform: rotate(-20deg) scale(1.06); }
+
+/* Cards fade up as they scroll into view (uses `translate`, so the hover lift still works) */
+.reveal { opacity: 0; translate: 0 18px; transition: opacity .6s ease, translate .6s ease, transform .25s ease, box-shadow .25s ease; }
+.reveal.in { opacity: 1; translate: 0 0; }
+
+/* Respect "reduce motion" settings */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; translate: none; }
+  .playing-card:hover, .dashboard-card:hover, .evidence-card:hover, .decision-card:hover,
+  .question-card:hover, .recommendation-card:hover, .to-top:hover { transform: none; }
+  .playing-card::after { display: none; }
+  html { scroll-behavior: auto; }
+}
+html { scroll-behavior: smooth; }
+
+/* ===================== Casino chips in the side gutters ===================== */
+.chip-rail { position: fixed; top: 0; bottom: 0; width: 120px; z-index: 0; pointer-events: none; display: none; }
+.chip-rail.left { left: 0; }
+.chip-rail.right { right: 0; }
+@media (min-width: 1440px) { .chip-rail { display: block; } }
+main.wrap { position: relative; z-index: 1; }   /* content sits above the chips; nav and hero keep their own positioning */
+
+.chip { --c: #B3261E; --edge: #F4EEDC; --size: 86px;
+        position: absolute; top: var(--top); left: 50%; width: var(--size); height: var(--size);
+        margin-left: calc(var(--size) / -2); border-radius: 50%; pointer-events: auto; cursor: pointer;
+        background:
+          radial-gradient(circle at 50% 50%, transparent 58%, rgba(0,0,0,.25) 59%, transparent 62%),
+          repeating-conic-gradient(from 8deg, var(--c) 0deg 38deg, var(--edge) 38deg 60deg);
+        box-shadow: 0 10px 22px rgba(0,0,0,.55), inset 0 0 0 3px rgba(0,0,0,.18), inset 0 3px 6px rgba(255,255,255,.35);
+        translate: 0 calc(var(--scroll, 0) * var(--speed, 0) * 1px);
+        rotate: var(--tilt, 0deg);
+        animation: chip-float 6s ease-in-out infinite; animation-delay: var(--delay, 0s);
+        transition: transform .9s cubic-bezier(.2,.8,.2,1); }
+.chip i { position: absolute; inset: 17%; border-radius: 50%; font-style: normal;
+          display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1;
+          background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.35), transparent 55%), var(--c);
+          border: 2px dashed rgba(244,238,220,.75); color: var(--edge);
+          font-family: "Cinzel", serif; font-weight: 700; font-size: calc(var(--size) * .22);
+          text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+.chip i b { font-size: calc(var(--size) * .13); letter-spacing: .04em; margin-top: 2px; }
+.chip:hover { transform: rotateY(360deg); }
+.chip.red    { --c: #B3261E; }
+.chip.black  { --c: #1C1C1E; --edge: #EAA244; }
+.chip.green  { --c: #1E7B4F; }
+.chip.blue   { --c: #1F4E9C; }
+.chip.purple { --c: #5B2C83; --edge: #FFE7A3; }
+.chip.gold   { --c: #C98B1F; --edge: #1C1C1E; }
+.chip.small  { --size: 64px; }
+.chip.big    { --size: 100px; }
+@keyframes chip-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+
+/* ===================== More finishing touches ===================== */
+
+/* Soft spotlight over the whole page, like casino ceiling lights */
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+               background: radial-gradient(ellipse 70% 45% at 50% 0%, rgba(234,162,68,.10), transparent 70%),
+                           radial-gradient(ellipse 60% 50% at 50% 110%, rgba(0,216,255,.05), transparent 70%); }
+
+/* GILDED shimmers like gold leaf */
+.hero-title span { background: linear-gradient(110deg, #B87818 0%, #FFE7A3 20%, #EAA244 40%, #B87818 60%, #FFE7A3 80%, #EAA244 100%);
+                   background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+                   animation: gold-shimmer 6s linear infinite; }
+@keyframes gold-shimmer { to { background-position: -250% 0; } }
+
+/* Numbered chip badges on the three recommended actions */
+#recommendations .recommendation-grid { counter-reset: action; }
+#recommendations .recommendation-card { position: relative; counter-increment: action; }
+#recommendations .recommendation-card::before {
+  content: counter(action); position: absolute; top: -14px; right: -10px; width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font: 700 17px "Cinzel", serif; color: #1b1405;
+  background: radial-gradient(circle at 35% 30%, #FFE7A3, #EAA244 55%, #B87818);
+  border: 2px dashed rgba(27,20,5,.45); box-shadow: 0 6px 14px rgba(0,0,0,.45); }
+
+/* Gold scrollbar and text selection */
+html { scrollbar-color: #B87818 rgba(255,255,255,.05); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,.04); }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #FFE7A3, #B87818); border-radius: 10px; }
+::selection { background: rgba(234,162,68,.45); color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .chip { animation: none; translate: none; }
+  .chip:hover { transform: none; }
+  .hero-title span { animation: none; }
+}
+
+/* ===================== Navbar: glass, gold edge, pill links ===================== */
+nav { background: linear-gradient(180deg, rgba(20,42,88,.94), rgba(10,22,48,.92)) !important;
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      border-bottom: 2px solid transparent;
+      border-image: linear-gradient(90deg, transparent, #B87818 15%, #FFE7A3 50%, #B87818 85%, transparent) 1;
+      box-shadow: 0 8px 28px rgba(0,0,0,.45); }
+nav h1 { font-family: "Cinzel", serif; letter-spacing: .12em;
+         background: linear-gradient(110deg, #B87818 0%, #FFE7A3 25%, #EAA244 50%, #FFE7A3 75%, #B87818 100%);
+         background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+         animation: gold-shimmer 8s linear infinite; text-shadow: none; }
+nav .nav-links { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+nav .nav-links a { position: relative; padding: 8px 14px; border-radius: 999px; text-decoration: none;
+                   letter-spacing: .04em; transition: color .2s ease, background .2s ease, box-shadow .2s ease; }
+nav .nav-links a::after { content: ""; position: absolute; left: 50%; right: 50%; bottom: 3px; height: 2px; border-radius: 2px;
+                          background: linear-gradient(90deg, #B87818, #FFE7A3, #B87818); transition: left .25s ease, right .25s ease; }
+nav .nav-links a:hover { color: #FFE7A3; background: rgba(234,162,68,.10); }
+nav .nav-links a:hover::after { left: 14px; right: 14px; }
+nav .nav-links a.active { color: #1b1405; text-shadow: 0 1px 0 rgba(255,255,255,.45); font-weight: 600;
+                          background: linear-gradient(180deg, #FFE7A3 0%, #F2C25B 45%, #D9962B 55%, #B87818 100%);
+                          box-shadow: 0 4px 12px rgba(234,162,68,.4), inset 0 1px 0 rgba(255,255,255,.7); }
+nav .nav-links a.active::after { display: none; }
+
+/* ===================== Chips: translucent, in the margins on most screens ===================== */
+.chip-rail { display: none; width: 150px; }
+@media (min-width: 1100px) { .chip-rail { display: block; } }
+.chip-rail.left { left: -18px; }
+.chip-rail.right { right: -18px; }
+.chip { opacity: .28; filter: saturate(.9); transition: transform .9s cubic-bezier(.2,.8,.2,1), opacity .3s ease; }
+.chip:hover { opacity: .9; }
+/* a few extra ghost chips, fainter and smaller, for depth */
+.chip.ghost { opacity: .14; --size: 54px; animation-duration: 9s; }
+.chip.ghost:hover { opacity: .6; }
+@media (max-width: 1439px) { .chip { --size: 70px; } .chip.big { --size: 80px; } .chip.small, .chip.ghost { --size: 50px; } }
+@media (prefers-reduced-motion: reduce) { nav h1 { animation: none; } }
+
+/* ===================== Bolder cosmetics ===================== */
+
+/* Casino marquee: a frame of blinking gold bulbs around the hero */
+.hero { position: relative; }
+.hero::after { content: ""; position: absolute; top: 14px; bottom: 14px; border-radius: 22px; pointer-events: none;
+               left: max(16px, calc((100% - 1100px) / 2)); right: max(16px, calc((100% - 1100px) / 2));
+               border: 5px dotted #FFE7A3; filter: drop-shadow(0 0 6px #EAA244) drop-shadow(0 0 14px rgba(234,162,68,.6));
+               animation: marquee-blink 1.1s steps(1, end) infinite; }
+@keyframes marquee-blink {
+  0%   { border-color: #FFE7A3; filter: drop-shadow(0 0 6px #EAA244) drop-shadow(0 0 16px rgba(234,162,68,.7)); }
+  50%  { border-color: #B87818; filter: drop-shadow(0 0 2px rgba(234,162,68,.3)); } }
+
+/* Giant faint suit watermark behind each section title */
+.section-header { position: relative; }
+.section-header::after { position: absolute; right: 8px; top: -30px; font-size: 170px; line-height: 1; pointer-events: none;
+                         color: #EAA244; opacity: .07; z-index: 0; }
+#machines .section-header::after { content: "♣"; }
+#demand .section-header::after { content: "♦"; }
+#downtime .section-header::after { content: "♠"; }
+#players .section-header::after { content: "♥"; }
+#loyalty .section-header::after { content: "♣"; }
+#model .section-header::after { content: "♦"; }
+#recommendations .section-header::after { content: "♥"; }
+#evidence .section-header::after { content: "♠"; }
+
+/* Key Finding cards pulse with a gold glow so they're the first thing you see */
+.question-card { border-left-color: #EAA244; animation: finding-glow 3.2s ease-in-out infinite; }
+@keyframes finding-glow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(234,162,68,.25), 0 0 0 rgba(234,162,68,0); }
+  50%      { box-shadow: 0 0 0 1px rgba(234,162,68,.6), 0 0 26px rgba(234,162,68,.28); } }
+
+/* Chips a bit more visible */
+.chip { opacity: .42; }
+.chip.ghost { opacity: .2; }
+
+/* Footer */
+.site-footer { position: relative; z-index: 1; text-align: center; margin: 60px 0 30px; padding: 30px 16px 10px; }
+.site-footer .chip-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 14px; }
+.site-footer .chip-row span { width: 34px; height: 34px; border-radius: 50%;
+  background: repeating-conic-gradient(from 8deg, var(--c) 0deg 38deg, #F4EEDC 38deg 60deg);
+  box-shadow: 0 4px 10px rgba(0,0,0,.45), inset 0 0 0 7px var(--c), inset 0 0 0 9px rgba(244,238,220,.7); }
+.site-footer .brand { font-family: "Cinzel", serif; font-size: 18px; letter-spacing: .14em;
+  background: linear-gradient(90deg, #B87818, #FFE7A3, #EAA244, #B87818); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.site-footer .small { font-size: 12px; opacity: .6; margin-top: 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::after, .question-card { animation: none; }
+}
+
+/* Chips spread across the width of each margin, not stacked in one column */
+.chip-rail { width: 240px; }
+.chip { left: var(--x, 50%); }
+@media (max-width: 1439px) { .chip-rail { width: 170px; } }

@@ -6,6 +6,8 @@
     <title>The Gilded Ace Dashboard</title>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -13,47 +15,63 @@
         <h1>♠ The Gilded Ace</h1>
 
         <div class="nav-links">
-            <a href="#overview">Overview</a>
             <a href="#machines">Machines</a>
             <a href="#demand">Demand</a>
+            <a href="#downtime">Downtime</a>
             <a href="#players">Players</a>
+            <a href="#loyalty">Loyalty</a>
+            <a href="#model">Model</a>
             <a href="#recommendations">Recommendations</a>
+            <a href="#evidence">Evidence</a>
         </div>
     </nav>
 
-    <main>
 
-        <section id="overview">
-            <h2>Overview</h2>
-        </section>
+    <section class="hero">
 
-        <section id="machines">
-            <h2>Machine Performance</h2>
-        </section>
+    <div class="hero-content">
 
-        <section id="demand">
-            <h2>Demand Analysis</h2>
-        </section>
+        <h1 class="hero-title">
+    ♠ THE
+    <span>GILDED</span>
+        ACE
+        </h1>
 
-        <section id="players">
-            <h2>Player Analysis</h2>
-        </section>
+        <p class="hero-text">
+            Casino Operations & Performance Dashboard
+        </p>
+    </div>
 
-        <section id="recommendations">
-            <h2>Recommendations</h2>
-        </section>
+</section>
 
-    </main>
+<section class="filters">
+
+    <select>
+        <option>Jan-Jun 2025</option>
+        <option>Apr-Jun 2025</option>
+        <option>Jun 2025</option>
+    </select>
+
+    <select>
+        <option>All Zones</option>
+    </select>
+
+    <select>
+        <option>All Manufacturers</option>
+    </select>
+
+</section>
 
 
-    <section id="overview">
+<section id="overview">
 
     <h2>Executive Summary</h2>
 
     <div class="card-table">
 
         <div class="playing-card">
-            <div class="corner">A♠</div>
+            <div class="corner top-left">A♠</div>
+            <div class="corner bottom-right">A♠</div>
 
             <h3>Coin-In</h3>
 
@@ -61,7 +79,8 @@
         </div>
 
         <div class="playing-card">
-            <div class="corner red">K♦</div>
+            <div class="corner top-left red">K♦</div>
+            <div class="corner bottom-right red">K♦</div>
 
             <h3>House Win</h3>
 
@@ -69,7 +88,8 @@
         </div>
 
         <div class="playing-card">
-            <div class="corner red">Q♥</div>
+            <div class="corner top-left red">Q♥</div>
+            <div class="corner bottom-right red">Q♥</div>
 
             <h3>Comp Cost</h3>
 
@@ -77,7 +97,8 @@
         </div>
 
         <div class="playing-card">
-            <div class="corner">J♣</div>
+            <div class="corner top-left">J♣</div>
+            <div class="corner bottom-right">J♣</div>
 
             <h3>Availability</h3>
 
@@ -87,25 +108,263 @@
     </div>
 
 </section>
+    <main>
 
+<section id="machines" class="dashboard-section">
 
+    <div class="section-header">
+        <h2>♣ Machine Performance</h2>
 
+        <p>
+            Which machines are truly underperforming after
+            accounting for availability and luck?
+        </p>
+    </div>
 
+    <div class="question-card">
 
+        <h3>Key Finding</h3>
 
-<section class="chart-area">    
+        <p>
+            Placeholder finding from analysis.
+        </p>
+
+    </div>
+
+    <div class="dashboard-row">
+
+        <div class="dashboard-card">
+
+            <h3>Theo vs Actual Win</h3>
+
+            <div class="placeholder-chart">
+                Scatter Plot
+            </div>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h3>Revenue By Zone</h3>
+
+            <div class="placeholder-chart">
+                Zone Chart
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="evidence-card">
+
+        <h3>Evidence</h3>
+
+        <p>
+            Source: prepared_daily_view
+        </p>
+
+    </div>
+
+    <div class="decision-card">
+
+        <h3>Decision</h3>
+
+        <p>
+            Relocate Machine 014.
+        </p>
+
+    </div>
+
 </section>
 
 
-<section class="machine-table">
+<section id="demand" class="dashboard-section">
+
+    <div class="section-header">
+
+        <h2>♦ Demand Analysis</h2>
+
+        <p>
+            What changed in demand across the casino floor?
+        </p>
+
+    </div>
+
+    <div class="question-card">
+
+        <h3>Key Finding</h3>
+
+        <p>
+            Placeholder demand finding.
+        </p>
+
+    </div>
+
+    <div class="dashboard-row">
+
+        <div class="dashboard-card">
+
+            <h3>Coin-In Trend</h3>
+
+            <div class="placeholder-chart">
+                Demand Trend
+            </div>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h3>Zone Traffic</h3>
+
+            <div class="placeholder-chart">
+                Traffic Chart
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="evidence-card">
+
+        <h3>Evidence</h3>
+
+        <p>
+            Source: property_day
+        </p>
+
+    </div>
+
+</section>
+<section id="model" class="dashboard-section">
+    <div class="section-header">
+    <h2>♦ Forecast Validation</h2>
+    </div>
+    <div class="dashboard-row">
+
+    <div class="dashboard-card">
+        <h3>Baseline MAE</h3>
+        <p>$0</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Forecast MAE</h3>
+        <p>$0</p>
+    </div>
+
+</div>
+
+
+    <div class="chart-placeholder">
+
+        Actual vs Predicted Chart
+
+    </div>
+
 </section>
 
+<section id="recommendations" class="dashboard-section">
 
+    <div class="section-header">
+        <h2>♥ Recommendations</h2>
 
+        <p>
+            Recommended actions for the July $100,000 budget.
+        </p>
+    </div>
 
+    <div class="recommendation-grid">
 
+        <div class="recommendation-card">
 
+            <h3>Move 8 Machines</h3>
 
+            <p><strong>Cost:</strong> $14,400</p>
+
+            <p><strong>Expected Effect:</strong>
+                Increase utilization.</p>
+
+            <p><strong>Uncertainty:</strong>
+                Medium</p>
+
+            <p><strong>Measurement:</strong>
+                Compare 30-day performance before and after.
+            </p>
+
+        </div>
+
+        <div class="recommendation-card">
+
+            <h3>Add Technician</h3>
+
+            <p><strong>Cost:</strong> $11,520</p>
+
+            <p><strong>Expected Effect:</strong>
+                Reduce downtime.
+            </p>
+
+            <p><strong>Uncertainty:</strong>
+                Medium
+            </p>
+
+            <p><strong>Measurement:</strong>
+                Track downtime hours.
+            </p>
+
+        </div>
+
+        <div class="recommendation-card">
+
+            <h3>Inspect RTP Settings</h3>
+
+            <p><strong>Cost:</strong> $6,000</p>
+
+            <p><strong>Expected Effect:</strong>
+                Verify machine configuration.
+            </p>
+
+            <p><strong>Uncertainty:</strong>
+                Low
+            </p>
+
+            <p><strong>Measurement:</strong>
+                Compare theo and observed performance.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+</section>
+
+<section id="evidence" class="dashboard-section">
+    <div class="section-header">
+    <h2>♠ Claims & Evidence</h2>
+</div>
+    <div class="evidence-table">
+
+        <table>
+            <tr>
+                <th>Claim</th>
+                <th>Evidence</th>
+                <th>Alternative Explanation</th>
+                <th>Limitation</th>
+            </tr>
+
+            <tr>
+                <td>Zone 4 had increased demand</td>
+                <td>property_day</td>
+                <td>Convention traffic</td>
+                <td>Traffic counters imperfect</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</section>
+
+</main>
 
 </body>
 </html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Gilded Ace Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+    <h1>♠ The Gilded Ace</h1>
+    <div class="nav-links">
+        <a href="#machines">Machines</a>
+        <a href="#demand">Demand</a>
+        <a href="#downtime">Downtime</a>
+        <a href="#players">Players</a>
+        <a href="#loyalty">Loyalty</a>
+        <a href="#model">Model</a>
+        <a href="#recommendations">Recommendations</a>
+        <a href="#evidence">Evidence</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">♠ THE <span>GILDED</span> ACE</h1>
+        <p class="hero-text">Casino Operations &amp; Performance Dashboard</p>
+    </div>
+</section>
+
+<section class="filters">
+    <select>
+        <option>Jan-Jun 2025</option>
+        <option>Apr-Jun 2025</option>
+        <option>Jun 2025</option>
+    </select>
+    <select><option>All Zones</option></select>
+    <select><option>All Manufacturers</option></select>
+</section>
+
+<section id="overview">
+    <div class="card-table">
+        <div class="playing-card">
+            <div class="corner top-left">A♠</div>
+            <div class="corner bottom-right">A♠</div>
+            <h3>Coin-In</h3>
+            <p>$163.8M</p>
+        </div>
+        <div class="playing-card">
+            <div class="corner top-left red">K♦</div>
+            <div class="corner bottom-right red">K♦</div>
+            <h3>House Win</h3>
+            <p>$15.6M</p>
+        </div>
+        <div class="playing-card">
+            <div class="corner top-left red">Q♥</div>
+            <div class="corner bottom-right red">Q♥</div>
+            <h3>Comp Cost</h3>
+            <p>$190,669</p>
+        </div>
+        <div class="playing-card">
+            <div class="corner top-left">J♣</div>
+            <div class="corner bottom-right">J♣</div>
+            <h3>Availability</h3>
+            <p>99.5%</p>
+        </div>
+    </div>
+</section>
+
+<main>
+
+<!-- ===================== MACHINES ===================== -->
+<section id="machines" class="dashboard-section">
+
+    <div class="section-header">
+        <h2>♣ Machine Performance</h2>
+        <p>Which machines are truly underperforming after accounting for availability and luck?</p>
+    </div>
+
+    <div class="question-card">
+        <h3>Key Finding</h3>
+        <p>None of the manager's bottom 10 machines are actually weak machines.</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Whole Floor Performance</h3>
+        <p>
+            Daily Coin-In compared with expected win (Theo). Major spikes correspond to the
+            Super Bowl, Winter Tournament, March Madness, and EDC weekend.
+        </p>
+        <iframe class="chart-frame" src="whole_floor_performance.html"></iframe>
+    </div>
+
+    <!-- NEW: the chart that proves the key finding directly -->
+    <div class="dashboard-card">
+        <h3>Manager's Bottom 10: Raw vs Adjusted Rank</h3>
+        <p>
+            Each line connects a machine's raw coin-in percentile to its percentile after
+            adjusting for hours occupied and luck (theo per occupied hour). Machines that
+            jump right were never bad machines, just badly placed or unlucky.
+        </p>
+        <iframe class="chart-frame" src="rank_shift.html"></iframe>
+    </div>
+
+    <div class="dashboard-row">
+        <div class="dashboard-card">
+            <h3>Theo vs Actual Win</h3>
+            <iframe class="chart-frame" src="theo_vs_actual.html"></iframe>
+        </div>
+        <div class="dashboard-card">
+            <h3>The Two Humps</h3>
+            <p>Low-performing machines cluster primarily in Back Forty and a handful of game themes.</p>
+            <iframe class="chart-frame" src="two_humps.html"></iframe>
+        </div>
+    </div>
+
+    <div class="bottom-row">
+        <div class="evidence-card">
+            <h3>Evidence</h3>
+            <p><strong>Location effect:</strong> Machines in the Back Forty zone have 35% lower occupancy than the floor average, driving down coin-in regardless of machine theme.</p>
+            <p><strong>Low-stakes design:</strong> Games like Comet Cash and Lucky Lanterns have normal occupancy rates but lower bet caps ($1 max) that reduce total dollar play.</p>
+            <p><strong>Noise vs. underperformance:</strong> Only a small fraction of machine-level variance comes from the machine itself. Most "underperformance" is driven by placement, traffic, and bet limits.</p>
+        </div>
+        <div class="decision-card">
+            <h3>Decision</h3>
+            <p><strong>Reallocate by traffic:</strong> Move the strongest games out of Back Forty into high-traffic zones, and use Back Forty for destination games that pull players in.</p>
+            <p><strong>Place low-stakes games where seats fill:</strong> Keep high-occupancy, low-bet games in high-foot-traffic areas to maximize utilization.</p>
+            <p><strong>Avoid hasty replacements:</strong> Don't spend budget replacing 10 machines; replacement themes (like Royal Draw) yield minor improvements that don't pay back the cost.</p>
+        </div>
+    </div>
+
+</section>
+
+<!-- ===================== DEMAND ===================== -->
+<section id="demand" class="dashboard-section">
+
+    <div class="section-header">
+        <h2>♦ Demand Analysis</h2>
+        <p>What changed in demand across the casino floor?</p>
+    </div>
+
+    <div class="question-card">
+        <h3>Key Finding</h3>
+        <p>
+            Low-performing areas like the Back Forty suffer because their seats sit empty 35% more
+            than the floor average, while seated players bet at normal rates.
+        </p>
+    </div>
+
+    <div class="dashboard-row">
+        <!-- NEW: replaces the "(place holder)" card -->
+        <div class="dashboard-card">
+            <h3>Why Zones Earn Less: Occupancy vs Bet Size</h3>
+            <p>
+                Occupancy and average bet per zone, indexed to floor average = 100.
+                Back Forty falls on occupancy, not bet size: an empty-seat problem, not a player problem.
+            </p>
+            <iframe class="chart-frame" src="demand_decomposition.html"></iframe>
+        </div>
+        <div class="dashboard-card">
+            <h3>Zone Traffic</h3>
+            <iframe class="chart-frame" src="demand_heatmap.html"></iframe>
+        </div>
+    </div>
+
+    <div class="evidence-card">
+        <h3>Evidence</h3>
+        <p>
+            The heatmap shows physical location heavily drives play frequency, with zones like the
+            Back Forty generating significantly lower coin-in per available hour than high-traffic
+            areas like the Main Entrance. Games with low total earnings (such as Comet Cash and Lucky
+            Lanterns) maintain solid occupancy in certain zones, showing they are popular low-stakes
+            options rather than broken or unwanted games.
+        </p>
+    </div>
+
+</section>
+
+<!-- ===================== DOWNTIME (NEW) ===================== -->
+<section id="downtime" class="dashboard-section">
+
+    <div class="section-header">
+        <h2>♠ Downtime</h2>
+        <p>Floor availability is 99.5%. Where does the remaining 0.5% hurt?</p>
+    </div>
+
+    <div class="question-card">
+        <h3>Key Finding</h3>
+        <p>
+            <!-- FILL IN from downtime_pareto.html, e.g. "X machines account for Y% of all downtime hours" -->
+            Downtime is concentrated in a small number of machines, so it is a targeted repair problem, not a floor-wide one.
+        </p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Downtime Concentration (Pareto)</h3>
+        <p>
+            Bars show downtime hours per machine (worst first); the line shows the cumulative share
+            of all downtime. Hover for each machine's estimated lost theo.
+        </p>
+        <iframe class="chart-frame" src="downtime_pareto.html"></iframe>
+    </div>
+
+</section>
+
+<!-- ===================== PLAYERS (NEW) ===================== -->
+<section id="players" class="dashboard-section">
+
+    <div class="section-header">
+        <h2>♥ Players</h2>
+        <p>How concentrated is the floor's value across players?</p>
+    </div>
+
+    <div class="question-card">
+        <h3>Key Finding</h3>
+        <p>
+            <!-- FILL IN from player_concentration.html, e.g. "The top 10% of players generate X% of theo" -->
+            A small share of players generates most of the theoretical win.
+        </p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Theo Concentration by Player</h3>
+        <p>Cumulative share of theo vs cumulative share of players, ranked from most to least valuable.</p>
+        <iframe class="chart-frame" src="player_concentration.html"></iframe>
+    </div>
+
+</section>
+
+<!-- ===================== LOYALTY (NEW) ===================== -->
+<section id="loyalty" class="dashboard-section">
+
+    <div class="section-header">
+        <h2>♣ Loyalty &amp; Comps</h2>
+        <p>Are comps going to the players who earn them?</p>
+    </div>
+
+    <div class="question-card">
+        <h3>Key Finding</h3>
+        <p>
+            Comps total $190,669, about 1.2% of house win.
+            <!-- FILL IN from comp_by_tier.html: which tier is over- or under-comped relative to its theo -->
+        </p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Comp Reinvestment Rate by Tier</h3>
+        <p>Comp cost as a percentage of theo for each loyalty tier. Unequal rates show where comp dollars are misallocated.</p>
+        <iframe class="chart-frame" src="comp_by_tier.html"></iframe>
+    </div>
+
+</section>
+
+<!-- ===================== MODEL ===================== -->
+<section id="model" class="dashboard-section">
+
+    <div class="section-header">
+        <h2>♦ Forecast Validation</h2>
+        <p>Does our forecast beat a naive baseline on held-out days?</p>
+    </div>
+
+    <div class="dashboard-row">
+        <div class="dashboard-card">
+            <h3>Baseline MAE</h3>
+            <p><!-- FILL IN: printed by make_charts.py -->$—</p>
+        </div>
+        <div class="dashboard-card">
+            <h3>Forecast MAE</h3>
+            <p><!-- FILL IN: printed by make_charts.py -->$—</p>
+        </div>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Actual vs Predicted</h3>
+        <p>Held-out test period: actual daily value, our forecast, and the naive baseline.</p>
+        <iframe class="chart-frame" src="forecast_vs_actual.html"></iframe>
+    </div>
+
+</section>
+
+<!-- ===================== RECOMMENDATIONS ===================== -->
+<section id="recommendations" class="dashboard-section">
+
+    <div class="section-header">
+        <h2>♥ Recommendations</h2>
+        <p>Recommended actions for the July $100,000 budget.</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Budget Allocation</h3>
+        <p>How the $100,000 July budget is spent, and what is held in reserve.</p>
+        <iframe class="chart-frame" src="budget_allocation.html"></iframe>
+    </div>
+
+    <div class="recommendation-grid">
+        <div class="recommendation-card">
+            <h3>Move 8 Machines</h3>
+            <p><strong>Cost:</strong> $14,400</p>
+            <p><strong>Expected Effect:</strong> Increase utilization.</p>
+            <p><strong>Uncertainty:</strong> Medium</p>
+            <p><strong>Measurement:</strong> Compare 30-day performance before and after.</p>
+        </div>
+        <div class="recommendation-card">
+            <h3>Add Technician</h3>
+            <p><strong>Cost:</strong> $11,520</p>
+            <p><strong>Expected Effect:</strong> Reduce downtime.</p>
+            <p><strong>Uncertainty:</strong> Medium</p>
+            <p><strong>Measurement:</strong> Track downtime hours.</p>
+        </div>
+        <div class="recommendation-card">
+            <h3>Inspect RTP Settings</h3>
+            <p><strong>Cost:</strong> $6,000</p>
+            <p><strong>Expected Effect:</strong> Verify machine configuration.</p>
+            <p><strong>Uncertainty:</strong> Low</p>
+            <p><strong>Measurement:</strong> Compare theo and observed performance.</p>
+        </div>
+    </div>
+
+</section>
+
+<!-- ===================== EVIDENCE ===================== -->
+<section id="evidence" class="dashboard-section">
+
+    <div class="section-header">
+        <h2>♠ Claims &amp; Evidence</h2>
+    </div>
+
+    <div class="evidence-table">
+        <table>
+            <tr>
+                <th>Claim</th>
+                <th>Evidence</th>
+                <th>Alternative Explanation</th>
+                <th>Limitation</th>
+            </tr>
+            <tr>
+                <td>Manager's bottom 10 are not weak machines</td>
+                <td>Raw vs adjusted rank chart</td>
+                <td>Adjustment method could favor some themes</td>
+                <td>Six months of data per machine</td>
+            </tr>
+            <tr>
+                <td>Back Forty underperforms on occupancy, not bet size</td>
+                <td>Demand decomposition, zone heatmap</td>
+                <td>Back Forty may hold older or less popular cabinets</td>
+                <td>Occupancy measured from carded play only</td>
+            </tr>
+            <tr>
+                <td>Downtime is concentrated in a few machines</td>
+                <td>Downtime Pareto</td>
+                <td>Scheduled maintenance logged as downtime</td>
+                <td>Lost theo is an estimate</td>
+            </tr>
+        </table>
+    </div>
+
+</section>
+
+</main>
+
+</body>
+</html>

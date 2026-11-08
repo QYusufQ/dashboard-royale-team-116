@@ -500,6 +500,38 @@
         </div>
     </div>
 
+    <!-- How sure are we? Sensitivity of the plan -->
+    <div class="grid grid-main">
+        <div class="dashboard-card">
+            <h3>How Sure Are We? 10,000 Simulated Julys</h3>
+            <p>Each action's benefit is drawn at random from its low–central–high range. Dot = median, bar = middle 80% of outcomes.</p>
+            <iframe loading="lazy" class="chart-frame" src="q6_simulation.html"></iframe>
+        </div>
+        <div class="question-card">
+            <h3>Key Finding</h3>
+            <p class="kf-head">Our plan pays off even in its worst case.</p>
+            <ul class="kf-points">
+                <li>Every action at its low case at once still nets +$21.6K</li>
+                <li>The manager's plan loses about $33.7K: replacements gain almost nothing</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="grid grid-main detail-only">
+        <div class="dashboard-card">
+            <h3>What Moves the Plan Most</h3>
+            <p>Plan net benefit when one assumption moves to its low or high case, the others held at central.</p>
+            <iframe loading="lazy" class="chart-frame" src="q6_sensitivity.html"></iframe>
+        </div>
+        <div class="evidence-card">
+            <h3>Room Before Break-even</h3>
+            <p><strong>Inspect M-1158:</strong> we assume a 50% chance of a fixable fault; it still pays at 21%.</p>
+            <p><strong>Move 2 machines:</strong> we assume the full Back Forty → Center Pit gap; it still pays at 27% of it.</p>
+            <p><strong>Promotion weekend:</strong> we assume 70% of the Winter Tournament's lift; it still pays at 17%.</p>
+            <p>Ranges are our stated assumptions, drawn independently, so the simulation is only as good as those ranges.</p>
+        </div>
+    </div>
+
     <div class="grid grid-main detail-only">
         <div class="dashboard-card">
             <h3>Benefit vs Cost of Every Option</h3>
@@ -555,6 +587,12 @@
                 <td>$90K lost, under 0.4% of expected win</td>
                 <td>Breakdowns at busy hours cost more than average</td>
                 <td>Assumes broken machines would have played at their usual rate</td>
+            </tr>
+            <tr>
+                <td>Our $19,800 plan beats the manager's plan</td>
+                <td>10,000 simulated Julys: ours nets +$55.9K (median), the manager's −$33.7K. All our actions at their low case still net +$21.6K</td>
+                <td>Our benefit ranges could all be too optimistic together</td>
+                <td>Ranges are our own assumptions, drawn independently</td>
             </tr>
             <tr>
                 <td>The May 1 comp price cut didn't lift play</td>

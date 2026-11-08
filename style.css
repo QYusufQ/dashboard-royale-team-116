@@ -521,3 +521,42 @@ p, td{
     color:#F5F7FA;
 
 }
+
+.main-dashboard{
+
+    max-width:1600px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+
+        1fr 1fr;
+
+    gap:25px;
+
+    padding:30px;
+}
+#overview{
+    max-width: 1600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#overview h2{
+    color: #EAA244;
+    margin-bottom: 30px;
+}
+
+.bottom-row{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:20px;
+
+    margin-top:20px;
+
+}

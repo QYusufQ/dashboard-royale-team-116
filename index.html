@@ -129,37 +129,71 @@
 
     </div>
 
+
+    <div class="dashboard-card">
+
+    <h3>Whole Floor Performance</h3>
+
+    <p>
+        Daily Coin-In compared with expected win (Theo).
+        Major spikes correspond to the Super Bowl,
+        Winter Tournament, March Madness, and EDC weekend.
+    </p>
+
+    <iframe
+        class="chart-frame"
+        src="whole_floor_performance.html">
+    </iframe>
+</div>
+
+
+
+
+
+
+
+
     <div class="dashboard-row">
 
         <div class="dashboard-card">
 
             <h3>Theo vs Actual Win</h3>
 
-            <div class="placeholder-chart">
-                <iframe
-    src="charts/whole_floor_performance.html"
-    width="100%"
-    height="450"
-    style="
-        border:none;
-        border-radius:20px;
-    ">
+            <iframe
+    class="chart-frame"
+    src="theo_vs_actual.html">
 </iframe>
-            </div>
+</div>
 
-        </div>
 
-        <div class="dashboard-card">
 
-            <h3>Revenue By Zone</h3>
 
-            <div class="placeholder-chart">
-                Zone Chart
-            </div>
+      <div class="dashboard-row2">
 
-        </div>
+    <div class="dashboard-card">
+
+        <h3>The Two Humps</h3>
+
+        <p>
+            Low-performing machines cluster primarily in
+            Back Forty and a handful of game themes.
+        </p>
+
+        <iframe
+            class="chart-frame"
+            src="two_humps.html">
+        </iframe>
 
     </div>
+
+</div>
+
+
+
+
+
+
+
 
     <div class="bottom-row">
 
@@ -168,7 +202,11 @@
         <h3>Evidence</h3>
 
         <p>
-            Source: prepared_daily_view
+            Location effect: Machines in the Back Forty zone suffer from 35% lower occupancy than average floor space, driving down overall coin-in regardless of machine theme.
+
+Low-stakes design: Games like Comet Cash and Lucky Lanterns have normal occupancy rates, but lower average bet caps ($1 max) that reduce total dollar play.
+
+Noise vs. underperformance: Only a tiny fraction of machine-level variance comes from the machine itself. Most "underperformance" is driven by placement, room traffic, and bet limits rather than a bad game cabinet.
         </p>
 
     </div>
@@ -178,7 +216,11 @@
         <h3>Decision</h3>
 
         <p>
-            Relocate Machine 014.
+            Reallocate low-earning themes: Move high-stakes games into underperforming zones like Back Forty to boost dollar yield per active seat.
+
+Retrain layout around traffic: Shift low-stakes/high-occupancy games into high-foot-traffic areas to maximize table and machine utilization.
+
+Avoid hasty replacements: Hold off on spending budget to buy 10 replacement machines immediately, as game replacements (like Royal Draw) only yield minor return improvements that do not pay back full machine replacement costs.
         </p>
 
     </div>
@@ -205,7 +247,7 @@
         <h3>Key Finding</h3>
 
         <p>
-            Placeholder demand finding.
+            Low-performing areas like the Back Forty suffer because their seats sit empty 35% more than the floor average, while seated players actually bet at normal rates.
         </p>
 
     </div>
@@ -214,11 +256,7 @@
 
         <div class="dashboard-card">
 
-            <h3>Coin-In Trend</h3>
-
-            <div class="placeholder-chart">
-                Demand Trend
-            </div>
+            <h3>(place holder)</h3>
 
         </div>
 
@@ -227,7 +265,10 @@
             <h3>Zone Traffic</h3>
 
             <div class="placeholder-chart">
-                Traffic Chart
+                <iframe
+            class="chart-frame"
+            src="demand_heatmap.html">
+        </iframe>
             </div>
 
         </div>
@@ -239,7 +280,8 @@
         <h3>Evidence</h3>
 
         <p>
-            Source: property_day
+            The heatmap shows that physical location heavily drives play frequency, with zones like the Back Forty generating significantly lower coin-in per available hour compared to high-traffic areas like the Main Entrance.
+            Games with low total earnings (such as Comet Cash and Lucky Lanterns) actually maintain solid machine counts and occupancy in certain zones, proving they are popular low-stakes options rather than broken or unwanted games.
         </p>
 
     </div>

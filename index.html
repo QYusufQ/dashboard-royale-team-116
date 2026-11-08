@@ -112,13 +112,11 @@
         </div>
         <div class="question-card">
             <h3>Key Finding</h3>
-            <p>
-                None of the manager's bottom 10 is a weak machine. 7 sit in the Back Forty and 3 were on the floor
-                for only part of the period.
-            </p>
-            <p>
-                Location and game explain 96% of the differences between machines; the machine itself about 1%.
-            </p>
+            <p class="kf-head">The manager's bottom 10 aren't broken machines.</p>
+            <ul class="kf-points">
+                <li>7 sit in low-traffic Back Forty; 3 weren't on the floor all period</li>
+                <li>Location and game explain 96% of the gap, the machine itself ~1%</li>
+            </ul>
         </div>
     </div>
 
@@ -231,12 +229,11 @@
         </div>
         <div class="question-card">
             <h3>Key Finding</h3>
-            <p>Demand was stable: a strong weekly rhythm and no long-term decline.</p>
-            <p>
-                Sports weekends drove the biggest spikes (Super Bowl +23%, college basketball +19%). Our own Winter
-                Tournament (+18%, about $83K extra theo) worked as well as a major outside event. Conventions barely
-                moved play.
-            </p>
+            <p class="kf-head">Demand is steady; big events drive the spikes.</p>
+            <ul class="kf-points">
+                <li>Super Bowl +23%, college basketball +19%</li>
+                <li>Our own Winter Tournament +18%, as strong as a major event</li>
+            </ul>
         </div>
     </div>
 
@@ -286,8 +283,11 @@
         </div>
         <div class="question-card">
             <h3>Key Finding</h3>
-            <p>Downtime cost $90,313 of expected win, only 0.38% of the total (about $499 a day across the floor).</p>
-            <p>Ridgeline machines lose 2–3× more per machine than other makes.</p>
+            <p class="kf-head">Downtime is a small cost.</p>
+            <ul class="kf-points">
+                <li>$90K of expected win lost, under 0.4% of the total</li>
+                <li>Ridgeline machines lose 2–3× more than other makes</li>
+            </ul>
         </div>
     </div>
 
@@ -323,8 +323,11 @@
         </div>
         <div class="question-card">
             <h3>Key Finding</h3>
-            <p>Card players wagered $163.8M and lost $15.6M (about 9.5%).</p>
-            <p>The median player lost $72 over six months; 13.6% came out ahead. The top 10% of losing players account for 53% of all losses.</p>
+            <p class="kf-head">A few players carry most of the losses.</p>
+            <ul class="kf-points">
+                <li>Typical player lost $72 in six months; 14% came out ahead</li>
+                <li>Top 10% of losing players = 53% of all losses</li>
+            </ul>
         </div>
     </div>
 
@@ -359,8 +362,11 @@
         </div>
         <div class="question-card">
             <h3>Key Finding</h3>
-            <p>Comps cost $190,669: 0.8% of the floor's expected win, or 1.1–1.3% of card players' expected win. On May 1 the price of comps in points was cut about 53% in every tier.</p>
-            <p>Slightly more players redeemed and comp cost rose about 8%, but visits and play showed no measurable lift.</p>
+            <p class="kf-head">Cheaper comps didn't bring more play.</p>
+            <ul class="kf-points">
+                <li>May 1: comps cost ~53% fewer points in every tier</li>
+                <li>Comp cost rose ~8%; visits and play stayed flat</li>
+            </ul>
         </div>
     </div>
 
@@ -413,8 +419,11 @@
         </div>
         <div class="question-card">
             <h3>Key Finding</h3>
-            <p><strong>Event classes matter most.</strong> Headline weekends lift play ×1.19, long or weekday events only ×1.02. One average boost over-forecasts Locals Week.</p>
-            <p>Every model was tested only on days it never saw, and uses only inputs known in advance.</p>
+            <p class="kf-head">Our forecast beats the baseline by 9%.</p>
+            <ul class="kf-points">
+                <li>Event type matters most: big weekends ×1.19, others ×1.02</li>
+                <li>Tested only on days the model never saw</li>
+            </ul>
         </div>
     </div>
 
@@ -444,7 +453,10 @@
         <h3>Limitations</h3>
         <p>
             The heat effect only appears once June is included, so it is an assumption for July rather than a validated
-            feature (July normal high of 41°C still to confirm and cite). July 4 adds extra uncertainty. A next-day model
+            feature. July is set at its normal high of 104.5°F (40.3°C), from NOAA's 1991–2020 normals for Las Vegas
+            (<a href="https://www.weather.gov/media/vef/Temperature%20Overview.pdf" target="_blank" rel="noopener">NWS Las Vegas</a>).
+            January–June daily highs are real NOAA observations from Las Vegas airport, supplied with the datathon data.
+            July 4 adds extra uncertainty. A next-day model
             with lagged sales reaches $38.3K, but it can only forecast one day ahead, so it isn't used for the July plan.
         </p>
     </div>
@@ -718,6 +730,32 @@ const MACHINES = [
     }, { rootMargin: "-35% 0px -60% 0px" });
     Object.keys(links).forEach(function (id) { var s = document.getElementById(id); if (s) spy.observe(s); });
   }
+})();
+</script>
+
+
+<script>
+// Make every chart fill its box exactly: no inner scrollbars, even if a chart file was saved with a fixed size.
+// (Works on the published site; browsers block this for files opened straight from disk.)
+(function () {
+  function fit(frame) {
+    try {
+      var w = frame.contentWindow, d = frame.contentDocument;
+      if (!w || !d || !w.Plotly || !frame.clientHeight) return;
+      d.documentElement.style.overflow = "hidden";
+      d.body.style.margin = "0"; d.body.style.overflow = "hidden";
+      d.querySelectorAll(".plotly-graph-div").forEach(function (gd) {
+        w.Plotly.relayout(gd, { width: frame.clientWidth, height: frame.clientHeight });
+      });
+    } catch (e) {}
+  }
+  var frames = document.querySelectorAll("iframe.chart-frame");
+  frames.forEach(function (f) { f.addEventListener("load", function () { fit(f); }); fit(f); });
+  var t;
+  window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(function () { frames.forEach(fit); }, 150); });
+  document.querySelectorAll(".view-toggle button").forEach(function (b) {
+    b.addEventListener("click", function () { setTimeout(function () { frames.forEach(fit); }, 60); });
+  });
 })();
 </script>
 

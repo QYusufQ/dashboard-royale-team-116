@@ -300,3 +300,23 @@ nav .nav-links a.active::after { display: none; }
 .chip-rail { width: 240px; }
 .chip { left: var(--x, 50%); }
 @media (max-width: 1439px) { .chip-rail { width: 170px; } }
+
+/* ===================== Key Findings: bigger, punchier ===================== */
+.question-card .kf-head { font-family: "Cinzel", serif; font-size: 22px; line-height: 1.3; font-weight: 700;
+                          color: #FFE7A3; margin: 6px 0 14px; }
+.question-card .kf-points { list-style: none; margin: 0; padding: 0; }
+.question-card .kf-points li { position: relative; padding-left: 26px; margin: 10px 0; font-size: 16px; line-height: 1.45; }
+.question-card .kf-points li::before { content: "♦"; position: absolute; left: 2px; top: 0; color: #EAA244; }
+
+/* ===================== Navbar: one tidy row at normal zoom ===================== */
+nav { display: flex !important; align-items: center !important; justify-content: space-between; gap: 16px;
+      flex-wrap: nowrap !important; padding: 10px 24px !important; min-height: 0 !important; height: auto !important; }
+nav h1 { white-space: nowrap; font-size: 22px !important; margin: 0 !important; flex-shrink: 0; }
+nav .nav-links { flex-wrap: nowrap !important; gap: 2px !important; overflow-x: auto; scrollbar-width: none; }
+nav .nav-links::-webkit-scrollbar { display: none; }
+nav .nav-links a { padding: 7px 12px !important; font-size: 14px !important; white-space: nowrap; }
+@media (max-width: 1150px) { nav h1 { font-size: 18px !important; } nav .nav-links a { padding: 6px 9px !important; font-size: 13px !important; } }
+@media (max-width: 760px)  { nav { flex-wrap: wrap !important; } nav .nav-links { width: 100%; } }
+
+/* Charts: never show scrollbars on the frame itself */
+.chart-frame { overflow: hidden; }
